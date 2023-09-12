@@ -1,18 +1,17 @@
-﻿using SA.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using WBAuth.DAL.Models;
 
-namespace Clean_API_Architecture_DAL.IRepository
+
+namespace WBAuth.DAL.IRepository
 {
     public interface IUtilisateurRepository
     {
-        //Task<IEnumerable<Utilisateur> ChargerAll();
-        //Task<Utilisateur> ChargerParId(int Id);
-        //Task<int> Ajouter(Utilisateur oUtilisateur);
-        //Task<int> Modifier(Utilisateur oUtilisateur);
-        //Task<bool> Suprimer(int Id);
+        Task<IEnumerable<Utilisateur>> ChargerAll();
+        Task<Utilisateur> Rechercher(string str);
+        Task<int> Ajouter(Utilisateur oUtilisateur);
+        Task<int> Modifier(Utilisateur oUtilisateur);
+        Task<bool> Suprimer(int Id);
        
     }
 }
+
+

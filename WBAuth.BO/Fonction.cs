@@ -11,5 +11,5 @@ namespace WBAuth.BO
         public string? NomAction { get; set; }
         public string? Description { get; set; }
 
-}
+    }
 }

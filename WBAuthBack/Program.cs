@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
-using WBAuth.Data;
+using WBAuth.DAL.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
