@@ -9,8 +9,8 @@ namespace WBAuth.DAL.Models
     public class Utilisateur{
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("IdUtilisateur")]
-        public int IdUtilisateur { get; set; }
+        [Column("Id")]
+        public int Id { get; set; }
 
 
         [Required]

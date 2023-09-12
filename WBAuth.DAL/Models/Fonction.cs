@@ -13,8 +13,8 @@ namespace WBAuth.DAL.Models{
     public class Fonction{
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("IdApplication")]
-        public int IdFonction { get; set; }
+        [Column("Id")]
+        public int Id { get; set; }
 
 
         [Required]

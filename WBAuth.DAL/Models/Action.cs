@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace WBAuth.DAL.Models {
- [Table("Action")]
- public class Action{
+   [Table("Action")]
+   public class Action{
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("IdAction")]
-        public int IdAction { get; set; }
+        [Column("Id")]
+        public int Id { get; set; }
 
 
         [Required]
@@ -30,5 +25,5 @@ namespace WBAuth.DAL.Models {
         public Journalisation? Journalisation { get; set; }
 
 
- }
+   }
 }

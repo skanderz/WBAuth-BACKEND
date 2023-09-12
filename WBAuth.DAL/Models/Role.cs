@@ -13,8 +13,8 @@ namespace WBAuth.DAL.Models
     public class Role{
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("IdRole")]
-        public int IdRole { get; set; }
+        [Column("Id")]
+        public int Id { get; set; }
 
 
         [Required]
@@ -26,7 +26,7 @@ namespace WBAuth.DAL.Models
 
 
 
-        [Column("Nom", TypeName = "TEXT")]
+        [Column("Description", TypeName = "TEXT")]
         public string? Description { get; set; }
 
 

@@ -12,8 +12,8 @@ namespace WBAuth.DAL.Models{
     public class Application{
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("IdApplication")]
-        public int IdApplication { get; set; }
+        [Column("Id")]
+        public int Id { get; set; }
 
 
         [Required]

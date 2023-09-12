@@ -13,8 +13,6 @@ namespace WBAuth.DAL.Models
         [Key]
         [ForeignKey("Role")]
         public int IdRole { get; set; }
-
-
         [Required]
         [InverseProperty("UtilisateurApplication")]
         public Role? Role { get; set; }
@@ -24,7 +22,6 @@ namespace WBAuth.DAL.Models
         [Key]
         [ForeignKey("Utilisateur")]
         public int IdUtilisateur { get; set; }
-
         [Required]
         [InverseProperty("UtilisateurApplication")]
         public Utilisateur? Utilisateur { get; set; }
@@ -34,7 +31,6 @@ namespace WBAuth.DAL.Models
         [Key]
         [ForeignKey("Application")]
         public int IdApplication { get; set; }
-
         [Required]
         [InverseProperty("UtilisateurApplication")]
         public Application? Application { get; set; }

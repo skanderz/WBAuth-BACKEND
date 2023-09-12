@@ -13,8 +13,8 @@ namespace WBAuth.DAL.Models
     public class Journalisation{
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("IdJournalisation")]
-        public int IdJournalisation { get; set; }
+        [Column("Id")]
+        public int Id { get; set; }
 
 
 
@@ -29,9 +29,11 @@ namespace WBAuth.DAL.Models
 
 
         [ForeignKey("Utilisateur")]
-        public int UtilisateurFK { get; set; }
+        public int IdUtilisateur { get; set; }
         public Utilisateur? Utilisateur { get; set; }
         public ICollection<Action>? Actions { get; set; }
 
     }
 }
+
+
