@@ -8,11 +8,11 @@ namespace WBAuth.BO
 {
     public class Action
     {
-        public int IdAction { get; set; }
+        public int Id { get; set; }
         public DateTime Date { get; set; }
         public string? Description { get; set; }
 
-        public int JournalisationFK { get; set; }
+        public int IdJournalisation { get; set; }
         public Journalisation? Journalisation { get; set; }
 
 

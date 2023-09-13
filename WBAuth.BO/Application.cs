@@ -8,11 +8,14 @@ namespace WBAuth.BO
 {
     public class Application{
 
-        public int IdApplication { get; set; }
+        public int Id { get; set; }
         public string? Nom { get; set; }
         public string? Description { get; set; }
         public string? Url { get; set; }
-        public byte[]? Logo { get; set; }    
+        public byte[]? Logo { get; set; }
+        public ICollection<UtilisateurApplication>? UtilisateurApplication { get; set; }
+        public ICollection<Fonction>? Fonctions { get; set; }
+        public ICollection<Role>? Role { get; set; }
 
     }
 

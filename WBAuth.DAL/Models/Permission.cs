@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -31,7 +26,11 @@ namespace WBAuth.DAL.Models
 
 
         [Required]
-        public bool Status { get; set; } = true;
+        public string? nom { get; set; }
+
+
+        [Required]
+        public bool[] Status { get; set; } = Enumerable.Repeat(true, 6).ToArray();
 
     }
 }
