@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 
 
-namespace WBAuth.BO
+namespace WBAuth.DAO.Models
 {
     public class UtilisateurApplication{
 

@@ -15,7 +15,6 @@ namespace WBAuth.DAL.Models
         public Role? Role { get; set; }
 
 
-
         [Key] 
         [ForeignKey("Fonction")]
         public int IdFonction { get; set; }
@@ -26,7 +25,7 @@ namespace WBAuth.DAL.Models
 
 
         [Required]
-        public string? nom { get; set; }
+        public string? Nom { get; set; }
 
 
         [Required]
