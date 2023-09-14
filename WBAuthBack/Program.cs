@@ -4,11 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using WBAuth.DAL.Models;
+using WBAuthBack;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //For Entity Framework
 var configuration = builder.Configuration;
+
+
+
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("sqlConnectionString")));
 //services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<Data.ApplicationDbContext>().AddDefaultTokenProviders();
 

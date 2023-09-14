@@ -19,7 +19,12 @@ namespace WBAuth.DAL.Models{
 
         [Required]
         [Column("NomAction", TypeName = "VARCHAR(50)")]
-        public string? NomAction { get; set; }
+        public string? Nom { get; set; }
+
+
+        [Required]
+        [Column("Type", TypeName = "VARCHAR(50)")]
+        public string? Type { get; set; }
 
 
         [Column("Description", TypeName = "TEXT")]

@@ -4,20 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WBAuth.BO
+namespace WBAuth.DAO.Models
 {
-    public class Role{
-
-        public int IdRole { get; set; }
+    public class Fonction{
+        public int IdFonction { get; set; }
         public string? Nom { get; set; }
-        public int? Niveau { get; set; }
+        public string? Type { get; set; }
         public string? Description { get; set; }
         public Permission? Permission { get; set; }
-        public UtilisateurApplication? UtilisateurApplication { get; set; }
         public int IdApplication { get; set; }
         public Application? Application { get; set; }
 
     }
-
-
 }

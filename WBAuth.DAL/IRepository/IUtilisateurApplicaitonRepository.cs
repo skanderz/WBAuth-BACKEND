@@ -7,10 +7,8 @@ namespace WBAuth.DAL.IRepository
     {
         Task<IEnumerable<UtilisateurApplication>> ChargerAll(int IdApplication);
         Task<UtilisateurApplication> Rechercher(string NomUtilisateur);
-        Task<int> ModifierAccesRole(int IdUtilisateur);
+        Task<int> ModifierAccesRole(int IdApplication ,int IdUtilisateur ,int IdRole);
        
     }
 }
-
-
 
