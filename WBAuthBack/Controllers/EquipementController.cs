@@ -3,7 +3,7 @@ using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Clean_API_Architecture.Controllers
+namespace WBAuthBack.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

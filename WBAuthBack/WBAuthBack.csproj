@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WBAuth.BLL\WBAuth.BLL.csproj" />
     <ProjectReference Include="..\WBAuth.DAL\WBAuth.DAL.csproj" />
   </ItemGroup>
 
