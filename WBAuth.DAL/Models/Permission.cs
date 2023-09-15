@@ -7,17 +7,21 @@ namespace WBAuth.DAL.Models
     [Table("Permission")]
     public class Permission{
         [Key]
+        public int Id { get; set; }
+
+
         [ForeignKey("Role")]
         public int IdRole { get; set; }
+
 
         [Required]
         [InverseProperty("Permission")]
         public Role? Role { get; set; }
 
 
-        [Key] 
         [ForeignKey("Fonction")]
         public int IdFonction { get; set; }
+
 
         [Required]
         [InverseProperty("Permission")]
@@ -29,7 +33,8 @@ namespace WBAuth.DAL.Models
 
 
         [Required]
-        public bool[] Status { get; set; } = Enumerable.Repeat(true, 6).ToArray();
+        public List<bool> Status { get; set; } = Enumerable.Repeat(true, 6).ToList();
+
 
     }
 }

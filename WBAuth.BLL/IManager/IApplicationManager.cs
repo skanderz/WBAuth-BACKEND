@@ -13,6 +13,9 @@ namespace WBAuth.BLL.IManager
         Task<int> Modifier(Application oApplication);
         Task<bool> Suprimer(int Id);
     }
+
+
+
 }
 
 

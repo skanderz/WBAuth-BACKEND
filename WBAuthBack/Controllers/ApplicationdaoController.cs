@@ -16,6 +16,7 @@ namespace WBAuthBack.Controllers
     {
         private readonly IApplicationManagerDAO _ApplicationManager;
 
+
         public ApplicationdaoController(IApplicationManagerDAO ApplicationManager) {   _ApplicationManager = ApplicationManager;   }
 
         //GET : api/Applicationdao/List
@@ -27,7 +28,6 @@ namespace WBAuthBack.Controllers
             if (oApplication == null)  return NoContent();
             return Ok(oApplication);
         }
-
 
       
 
