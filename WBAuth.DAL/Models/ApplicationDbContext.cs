@@ -13,12 +13,12 @@ namespace WBAuth.DAL.Models
         protected override void OnModelCreating(ModelBuilder builder) { 
             base.OnModelCreating(builder);
 
-            builder.Entity<Permission>().HasOne(ua => ua.Fonction).WithMany().HasForeignKey(ua => ua.IdRole);
-            builder.Entity<Permission>().HasOne(ua => ua.Role).WithMany().HasForeignKey(ua => ua.IdRole);
+            builder.Entity<Permission>().HasOne(p => p.Fonction).WithOne(f => f.Permission).HasForeignKey<Permission>(p => p.IdFonction).OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<Permission>().HasOne(p => p.Role).WithOne(r => r.Permission).HasForeignKey<Permission>(p => p.IdRole).OnDelete(DeleteBehavior.NoAction);
 
-            builder.Entity<UtilisateurApplication>().HasOne(ua => ua.Utilisateur).WithMany(u => u.UtilisateurApplication).HasForeignKey(ua => ua.IdUtilisateur);
-            builder.Entity<UtilisateurApplication>().HasOne(ua => ua.Application).WithMany(a => a.UtilisateurApplication).HasForeignKey(ua => ua.IdApplication);
-            builder.Entity<UtilisateurApplication>().HasOne(ua => ua.Role).WithMany().HasForeignKey(ua => ua.IdRole);
+            builder.Entity<UtilisateurApplication>().HasOne(ua => ua.Utilisateur).WithOne(u => u.UtilisateurApplication).HasForeignKey<UtilisateurApplication>(ua => ua.IdUtilisateur).OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<UtilisateurApplication>().HasOne(ua => ua.Application).WithOne(a => a.UtilisateurApplication).HasForeignKey<UtilisateurApplication>(ua => ua.IdApplication).OnDelete(DeleteBehavior.NoAction); 
+            builder.Entity<UtilisateurApplication>().HasOne(ua => ua.Role).WithOne(r => r.UtilisateurApplication).HasForeignKey<UtilisateurApplication>(ua => ua.IdRole).OnDelete(DeleteBehavior.NoAction); 
         }
 
         public DbSet<Action>? Action { get; set; }
@@ -28,6 +28,7 @@ namespace WBAuth.DAL.Models
         public DbSet<Permission>? Permission { get; set; }
         public DbSet<Role>? Role { get; set; }
         public DbSet<Utilisateur>? Utilisateur { get; set; }
+        public DbSet<UtilisateurApplication>? UtilisateurApplication { get; set; }
 
 
     }

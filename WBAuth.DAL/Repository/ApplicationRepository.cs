@@ -1,7 +1,7 @@
 ﻿using WBAuth.DAL.IRepository;
 using WBAuth.DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using Application = WBAuth.DAL.Models.Application;
+
 
 
 

@@ -14,21 +14,21 @@ namespace WBAuth.DAL.Models
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("Role")]
+        [ForeignKey("Role, DeleteBehavior = DeleteBehavior.NoAction")]
         public int IdRole { get; set; }
         [Required]
         [InverseProperty("UtilisateurApplication")]
         public Role? Role { get; set; }
 
 
-        [ForeignKey("Utilisateur")]
+        [ForeignKey("Utilisateur, DeleteBehavior = DeleteBehavior.NoAction")]
         public int IdUtilisateur { get; set; }
         [Required]
         [InverseProperty("UtilisateurApplication")]
         public Utilisateur? Utilisateur { get; set; }
 
 
-        [ForeignKey("Application")]
+        [ForeignKey("Application, DeleteBehavior = DeleteBehavior.NoAction")]
         public int IdApplication { get; set; }
         [Required]
         [InverseProperty("UtilisateurApplication")]

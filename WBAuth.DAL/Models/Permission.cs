@@ -10,7 +10,7 @@ namespace WBAuth.DAL.Models
         public int Id { get; set; }
 
 
-        [ForeignKey("Role")]
+        [ForeignKey("Role, DeleteBehavior = DeleteBehavior.NoAction")]
         public int IdRole { get; set; }
 
 
@@ -19,7 +19,7 @@ namespace WBAuth.DAL.Models
         public Role? Role { get; set; }
 
 
-        [ForeignKey("Fonction")]
+        [ForeignKey("Fonction, DeleteBehavior = DeleteBehavior.NoAction")]
         public int IdFonction { get; set; }
 
 
@@ -32,8 +32,7 @@ namespace WBAuth.DAL.Models
         public string? Nom { get; set; }
 
 
-        [Required]
-        public List<bool> Status { get; set; } = Enumerable.Repeat(true, 6).ToList();
+        public int Status { get; set; } = 1111;
 
 
     }

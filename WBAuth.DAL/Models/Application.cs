@@ -32,12 +32,12 @@ namespace WBAuth.DAL.Models{
         public string? Url { get; set; }
 
 
-
+        [JsonIgnore]
         [Column("Logo", TypeName = "varbinary(max)")]
         public byte[]? Logo { get; set; }
 
         [JsonIgnore]
-        public ICollection<UtilisateurApplication>? UtilisateurApplication { get; set; }
+        public UtilisateurApplication? UtilisateurApplication { get; set; }
 
         [JsonIgnore]
         public ICollection<Fonction>? Fonctions { get; set; }
