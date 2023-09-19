@@ -8,7 +8,7 @@ namespace WBAuth.BLL.IManager
     public interface IUtilisateurManager
     {
         Task<IEnumerable<Utilisateur>> ChargerAll();
-        Task<Utilisateur> Recherche(int Id);
+        Task<Utilisateur> Recherche(int id);
         Task<int> Ajouter(Utilisateur oUtilisateur);
         Task<int> Modifier(Utilisateur oUtilisateur);
         Task<bool> Suprimer(int Id);

@@ -1,17 +1,17 @@
 ﻿using WBAuth.BO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Action = WBAuth.BO.Action;
 
 
 namespace WBAuth.BLL.IManager
 {
     public interface IActionManager
     {
-        Task<IEnumerable<Action>> ChargerAll();
+        Task<IEnumerable<Action>> ChargerListe(int IdJournalisation);
         Task<Action> Recherche(int Id);
-        Task<int> Ajouter(Action oAction);
-        Task<int> Modifier(Action oAction);
-        Task<bool> Suprimer(int Id);
+        Task<int> EnregistrementActions(int IdJournalisation);
+        Task<bool> Clear(int Id);
     }
 
 

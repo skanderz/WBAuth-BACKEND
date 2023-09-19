@@ -7,11 +7,11 @@ namespace WBAuth.BLL.IManager
 {
     public interface IFonctionManager
     {
-        Task<IEnumerable<Fonction>> ChargerAll();
-        Task<Fonction> Recherche(int Id);
-        Task<int> Ajouter(Fonction oFonction);
-        Task<int> Modifier(Fonction oFonction);
-        Task<bool> Suprimer(int Id);
+        Task<IEnumerable<Fonction>> ChargerAll(int IdApplication);
+        Task<Fonction> Recherche(int Id, int IdApplication);
+        Task<int> Ajouter(Fonction oFonction, int IdApplication);
+        Task<int> Modifier(Fonction oFonction, int IdApplication);
+        Task<bool> Suprimer(int Id, int IdApplication);
     }
 
 

@@ -37,7 +37,7 @@ namespace WBAuth.DAL.Models{
         public byte[]? Logo { get; set; }
 
         [JsonIgnore]
-        public UtilisateurApplication? UtilisateurApplication { get; set; }
+        public ICollection<UtilisateurApplication>? UtilisateurApplications { get; set; }
 
         [JsonIgnore]
         public ICollection<Fonction>? Fonctions { get; set; }

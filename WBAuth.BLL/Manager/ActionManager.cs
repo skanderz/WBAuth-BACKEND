@@ -2,6 +2,7 @@
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using AutoMapper;
+using Action = WBAuth.BO.Action;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,18 +23,11 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<int> Ajouter(Action oAction)
-        {
-            if (oAction == null) throw new ArgumentNullException(nameof(oAction));
-            var entity = _mapper.Map<DAL.Models.Action> (oAction);
-            var id = await _IActionRepository.Ajouter(entity);
-            return id;
-        }
 
-
-        public async Task<IEnumerable<Action>> ChargerAll()
+        public async Task<IEnumerable<Action>> ChargerListe(int IdJournalisation)
         {
-            var Actions = await _IActionRepository.ChargerAll();
+            var Actions = await _IActionRepository.ChargerListe(IdJournalisation);
+            if (Actions == null) throw new ArgumentNullException(nameof(Actions));
             var model = _mapper.Map<List<Action>>(Actions);
             return model;
         }
@@ -42,21 +36,23 @@ namespace WBAuth.BLL.Manager
         public async Task<Action> Recherche(int Id)
         {
             var oAction = await _IActionRepository.Recherche(Id);
+            if (oAction == null) throw new ArgumentNullException(nameof(oAction));
             var model = _mapper.Map<Action>(oAction);
             return model;
         }
 
 
-        public async Task<int> Modifier(Action oAction)
+        public Task<int> EnregistrementActions(int IdJournalisation)
         {
-            if (oAction == null) throw new ArgumentNullException(nameof(oAction));
-            var entity = _mapper.Map<DAL.Models.Action>(oAction);
-            var id = await _IActionRepository.Modifier(entity);
-            return id;
+            throw new NotImplementedException();
         }
 
+        public async Task<bool> Clear(int Id) { return await _IActionRepository.Clear(Id); }
 
-        public async Task<bool> Suprimer(int Id)   {   return await _IActionRepository.Suprimer(Id);     }
+
+
+
+
 
 
 

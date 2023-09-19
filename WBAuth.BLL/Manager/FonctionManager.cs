@@ -22,41 +22,41 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<int> Ajouter(Fonction oFonction)
-        {
-            if (oFonction == null) throw new ArgumentNullException(nameof(oFonction));
-            var entity = _mapper.Map<DAL.Models.Fonction> (oFonction);
-            var id = await _IFonctionRepository.Ajouter(entity);
-            return id;
-        }
 
-
-        public async Task<IEnumerable<Fonction>> ChargerAll()
+        public async Task<IEnumerable<Fonction>> ChargerAll(int IdApplication)
         {
-            var Fonctions = await _IFonctionRepository.ChargerAll();
+            var Fonctions = await _IFonctionRepository.ChargerAll(IdApplication);
             var model = _mapper.Map<List<Fonction>>(Fonctions);
             return model;
         }
 
 
-        public async Task<Fonction> Recherche(int Id)
+        public async Task<Fonction> Recherche(int Id, int IdApplication)
         {
-            var oFonction = await _IFonctionRepository.Recherche(Id);
+            var oFonction = await _IFonctionRepository.Recherche(Id, IdApplication);
             var model = _mapper.Map<Fonction>(oFonction);
             return model;
         }
 
 
-        public async Task<int> Modifier(Fonction oFonction)
+        public async Task<int> Ajouter(Fonction oFonction, int IdApplication)
         {
-            if (oFonction == null) throw new ArgumentNullException(nameof(oFonction));
             var entity = _mapper.Map<DAL.Models.Fonction>(oFonction);
-            var id = await _IFonctionRepository.Modifier(entity);
+            var id = await _IFonctionRepository.Ajouter(entity, IdApplication);
             return id;
         }
 
 
-        public async Task<bool> Suprimer(int Id)   {   return await _IFonctionRepository.Suprimer(Id);     }
+
+        public async Task<int> Modifier(Fonction oFonction, int IdApplication)
+        {
+            var entity = _mapper.Map<DAL.Models.Fonction>(oFonction);
+            var id = await _IFonctionRepository.Modifier(entity, IdApplication);
+            return id;
+        }
+
+
+        public async Task<bool> Suprimer(int Id, int IdApplication)   {   return await _IFonctionRepository.Suprimer(Id, IdApplication);     }
 
 
 

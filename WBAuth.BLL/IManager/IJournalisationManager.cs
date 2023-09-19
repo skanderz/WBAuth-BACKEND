@@ -7,11 +7,10 @@ namespace WBAuth.BLL.IManager
 {
     public interface IJournalisationManager
     {
-        Task<IEnumerable<Journalisation>> ChargerAll();
+        Task<IEnumerable<Journalisation>> ChargerListe(string NomUtilisateur);
         Task<Journalisation> Recherche(int Id);
-        Task<int> Ajouter(Journalisation oJournalisation);
-        Task<int> Modifier(Journalisation oJournalisation);
-        Task<bool> Suprimer(int Id);
+        Task<int> EnregistrementJournalisation(int IdUtilisateur);
+        Task<bool> Clear(int Id);
     }
 
 
