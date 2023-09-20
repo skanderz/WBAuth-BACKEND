@@ -69,7 +69,7 @@ namespace WBAuthBack.Controllers
             if (id <= 0) {   return BadRequest("Application introuvable");  }
             var Application = await _ApplicationManager.Recherche(id);
             if (Application == null)  return NotFound("Application est introuvable'");
-            var isdeleted = await _ApplicationManager.Suprimer(id);
+            var isdeleted = await _ApplicationManager.Supprimer(id);
             if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de Application.");
             return Ok(isdeleted);
         }

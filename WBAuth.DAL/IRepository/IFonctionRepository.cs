@@ -9,6 +9,6 @@ namespace WBAuth.DAL.IRepository
         Task<Fonction> Recherche(int Id ,int IdApplication);
         Task<int> Ajouter(Fonction oFonction ,int IdApplication);
         Task<int> Modifier(Fonction oFonction, int IdApplication);
-        Task<bool> Suprimer(int Id ,int IdApplication);
+        Task<bool> Supprimer(int Id ,int IdApplication);
     }
 }

@@ -27,8 +27,7 @@ namespace WBAuth.DAL.Models
         [Required]
         public string? Nom { get; set; }
 
-
-        public int Status { get; set; } = 1111;
+        public string Status { get; set; } = "111111";
 
 
     }

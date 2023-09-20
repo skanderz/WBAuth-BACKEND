@@ -22,41 +22,48 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<int> Ajouter(Permission oPermission)
+
+        public Task<int> Ajouter(Permission oPermission)
         {
-            if (oPermission == null) throw new ArgumentNullException(nameof(oPermission));
-            var entity = _mapper.Map<DAL.Models.Permission> (oPermission);
-            var id = await _IPermissionRepository.Ajouter(entity);
-            return id;
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Permission>> ChargerAllFonctionUnique(int IdApplication, int IdRole)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Permission>> ChargerAllMultiFonction(int IdApplication, int IdRole)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> Modifier(Permission oPermission)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> ModifierAcces(int Id, int IdApplication, int IdRole, int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Permission> RechercheFonctionUnique(int Id, int IdApplication, int IdRole)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Permission> RechercheMultiFonction(int Id, int IdApplication, int IdRole)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Supprimer(int Id, int IdApplication, int IdRole)
+        {
+            throw new NotImplementedException();
         }
 
 
-        public async Task<IEnumerable<Permission>> ChargerAll()
-        {
-            var Permissions = await _IPermissionRepository.ChargerAll();
-            var model = _mapper.Map<List<Permission>>(Permissions);
-            return model;
-        }
-
-
-        public async Task<Permission> Recherche(int Id)
-        {
-            var oPermission = await _IPermissionRepository.Recherche(Id);
-            var model = _mapper.Map<Permission>(oPermission);
-            return model;
-        }
-
-
-        public async Task<int> Modifier(Permission oPermission)
-        {
-            if (oPermission == null) throw new ArgumentNullException(nameof(oPermission));
-            var entity = _mapper.Map<DAL.Models.Permission>(oPermission);
-            var id = await _IPermissionRepository.Modifier(entity);
-            return id;
-        }
-
-
-        public async Task<bool> Suprimer(int Id)   {   return await _IPermissionRepository.Suprimer(Id);     }
 
 
 

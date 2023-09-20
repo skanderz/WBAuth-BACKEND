@@ -13,62 +13,36 @@ namespace WBAuth.DAL.Repository
         public JournalisationRepository(ApplicationDbContext dataContext){ _dataContext = dataContext; }
 
 
-
-        public async Task<IEnumerable<Journalisation>> ChargerAll() { return await _dataContext.Set<Journalisation>().ToListAsync(); }
-
-
-
-        public async Task<int> Ajouter(Journalisation oJournalisation)
+        public async Task<IEnumerable<Journalisation>> ChargerListe(int IdUtilisateur)
         {
-            if (oJournalisation == null) throw new ArgumentNullException(nameof(oJournalisation));
-            _dataContext.Entry(oJournalisation).State = EntityState.Added;
-            await _dataContext.SaveChangesAsync();
-            return oJournalisation.Id;
+            return await _dataContext.Set<Journalisation>().Where(j => j.IdUtilisateur == IdUtilisateur).ToListAsync();
         }
 
-        public async  Task<int> Modifier(Journalisation oJournalisation)
+        public async Task<Journalisation> Recherche(int Id)
         {
-            if (oJournalisation == null) throw new ArgumentNullException(nameof(oJournalisation));
-            var entity = await _dataContext.Set<Journalisation>().FirstOrDefaultAsync(item => item.Id == oJournalisation.Id);
-            entity.Nom = oJournalisation.Nom;
-            entity.Description = oJournalisation.Description;
-            entity.Url = oJournalisation.Url;
-            entity.Logo = oJournalisation.Logo;
-            _dataContext.Entry<Journalisation>(entity).State = EntityState.Modified;
-            await _dataContext.SaveChangesAsync();
-            return oJournalisation.Id;
+            var oJournalisation = await _dataContext.Set<Journalisation>().FirstOrDefaultAsync(j => j.Id == Id);
+            if (oJournalisation == null) Console.Error.WriteLine("Aucun élément trouvé avec l'ID spécifié.");
+            return oJournalisation;  
         }
 
 
-        public async Task<bool> Suprimer(int Id)
+        public async Task<int> EnregistrementJournalisation(int IdUtilisateur)
         {
-            if (Id < 0) throw new ArgumentNullException(nameof(Id));
-            var entity = await _dataContext.Set<Journalisation>().FirstOrDefaultAsync(item => item.Id == Id);
-            _dataContext.Entry<Journalisation>(entity).State = EntityState.Deleted;
-            await _dataContext.SaveChangesAsync();
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> Clear(int IdUtilisateur)
+        {
+            if (IdUtilisateur <= 0) throw new ArgumentException("IdUtilisateur doit être supérieur à zéro.", nameof(IdUtilisateur));
+            var journalisations = await _dataContext.Set<Journalisation>().Where(a => a.IdUtilisateur == IdUtilisateur).ToListAsync();
+            if (journalisations.Any()) { _dataContext.RemoveRange(journalisations); await _dataContext.SaveChangesAsync(); }
             return true;
         }
 
 
-        public async Task<Journalisation> Recherche(int Id)
-        {
-            return await _dataContext.Set<Journalisation>().FirstOrDefaultAsync(item => item.Id == Id);
-        }
 
-        public Task<IEnumerable<Journalisation>> ChargerListe(string NomUtilisateur)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<int> EnregistrementJournalisation(int IdUtilisateur)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<bool> Clear(int Id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
 

@@ -40,7 +40,7 @@ namespace WBAuth.DAL.Repository
         }
 
 
-        public async Task<bool> Suprimer(int Id)
+        public async Task<bool> Supprimer(int Id)
         {
             if (Id < 0) throw new ArgumentNullException(nameof(Id));
             var entity = await _dataContext.Set<UtilisateurApplication>().FirstOrDefaultAsync(item => item.Id == Id);

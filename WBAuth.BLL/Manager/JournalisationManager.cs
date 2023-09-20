@@ -22,18 +22,11 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<int> Ajouter(Journalisation oJournalisation)
-        {
-            if (oJournalisation == null) throw new ArgumentNullException(nameof(oJournalisation));
-            var entity = _mapper.Map<DAL.Models.Journalisation> (oJournalisation);
-            var id = await _IJournalisationRepository.Ajouter(entity);
-            return id;
-        }
 
-
-        public async Task<IEnumerable<Journalisation>> ChargerAll()
+        public async Task<IEnumerable<Journalisation>> ChargerListe(int IdUtilisateur)
         {
-            var Journalisations = await _IJournalisationRepository.ChargerAll();
+            var Journalisations = await _IJournalisationRepository.ChargerListe(IdUtilisateur);
+            if (Journalisations == null) throw new ArgumentNullException(nameof(Journalisations));
             var model = _mapper.Map<List<Journalisation>>(Journalisations);
             return model;
         }
@@ -42,21 +35,24 @@ namespace WBAuth.BLL.Manager
         public async Task<Journalisation> Recherche(int Id)
         {
             var oJournalisation = await _IJournalisationRepository.Recherche(Id);
+            if (oJournalisation == null) throw new ArgumentNullException(nameof(oJournalisation));
             var model = _mapper.Map<Journalisation>(oJournalisation);
             return model;
         }
 
 
-        public async Task<int> Modifier(Journalisation oJournalisation)
+
+        public async Task<bool> Clear(int Id){    return await _IJournalisationRepository.Clear(Id);    }
+
+
+        public async Task<int> EnregistrementJournalisation(int IdUtilisateur)
         {
-            if (oJournalisation == null) throw new ArgumentNullException(nameof(oJournalisation));
-            var entity = _mapper.Map<DAL.Models.Journalisation>(oJournalisation);
-            var id = await _IJournalisationRepository.Modifier(entity);
-            return id;
+            // Saisir Await // 
+            throw new NotImplementedException();
         }
 
 
-        public async Task<bool> Suprimer(int Id)   {   return await _IJournalisationRepository.Suprimer(Id);     }
+
 
 
 

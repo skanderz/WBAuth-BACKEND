@@ -14,7 +14,7 @@ namespace WBAuth.BO
         public int IdFonction { get; set; }
         public Fonction? Fonction { get; set; }
         public string? Nom { get; set; }
-        public int Status { get; set; } 
+        public string? Status { get; set; } 
 
     }
 }

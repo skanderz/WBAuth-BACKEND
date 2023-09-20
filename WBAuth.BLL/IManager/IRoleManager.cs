@@ -11,7 +11,7 @@ namespace WBAuth.BLL.IManager
         Task<Role> Recherche(int Id);
         Task<int> Ajouter(Role oRole);
         Task<int> Modifier(Role oRole);
-        Task<bool> Suprimer(int Id);
+        Task<bool> Supprimer(int Id);
     }
 
 

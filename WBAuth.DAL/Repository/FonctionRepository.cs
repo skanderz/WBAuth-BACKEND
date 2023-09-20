@@ -61,11 +61,11 @@ namespace WBAuth.DAL.Repository
         }
 
 
-        public async Task<bool> Suprimer(int Id, int IdApplication)
+        public async Task<bool> Supprimer(int Id, int IdApplication)
         {
             var entity = await _dataContext.Set<Fonction>().Where(f => f.IdApplication == IdApplication).FirstOrDefaultAsync(f => f.Id == Id);
             if(entity == null) throw new InvalidOperationException("La fonction spécifiée n'a pas été trouvée.");
-            _dataContext.Entry<Fonction>(entity).State = EntityState.Deleted;
+            _dataContext.Entry(entity).State = EntityState.Deleted;
             await _dataContext.SaveChangesAsync();
             return true;
         }

@@ -56,7 +56,7 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<bool> Suprimer(int Id, int IdApplication)   {   return await _IFonctionRepository.Suprimer(Id, IdApplication);     }
+        public async Task<bool> Supprimer(int Id, int IdApplication)   {   return await _IFonctionRepository.Supprimer(Id, IdApplication);     }
 
 
 
