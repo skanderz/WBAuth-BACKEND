@@ -13,6 +13,15 @@ var configuration = builder.Configuration;
 
 
 
+
+   CreateWebHostBuilder(args).Build().Run();
+
+
+static IWebHostBuilder CreateWebHostBuilder(string[] args) => WebHost.CreateDefaultBuilder(args).UseStartup<Startup>(); 
+
+
+
+
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("sqlConnectionString")));
 //services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<Data.ApplicationDbContext>().AddDefaultTokenProviders();
 
