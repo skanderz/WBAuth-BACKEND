@@ -9,7 +9,7 @@ namespace WBAuth.DAL.IRepository
         Task<Role> Recherche(int Id);
         Task<int> Ajouter(Role oRole);
         Task<int> Modifier(Role oRole);
-        Task<bool> Suprimer(int Id);
+        Task<bool> Supprimer(int Id);
        
     }
 }

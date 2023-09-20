@@ -15,26 +15,29 @@ namespace WBAuth.DAL.Repository
 
 
 
-        public async Task<IEnumerable<Action>> ChargerListe(int IdJournalisation){    return await _dataContext.Set<Action>().ToListAsync();   }
+        public async Task<IEnumerable<Action>> ChargerListe(int IdJournalisation){  return await _dataContext.Set<Action>().Where(a => a.IdJournalisation == IdJournalisation).ToListAsync();  }
 
 
-        /* ajouter task et async */
-        public Task<int> EnregistrementActions(int IdJournalisation)
+
+        public async Task<int> EnregistrementActions(int IdJournalisation)
         {
-            throw new NotImplementedException();
+            /* ==> ajouter task et async <== */ 
+            throw new NotImplementedException(); 
         }
          
 
 
         public async Task<Action> Recherche(int Id)
         {
-            return await _dataContext.Set<Action>().FirstOrDefaultAsync(item => item.Id == Id);
+            var oAction = await _dataContext.Set<Action>().FirstOrDefaultAsync(item => item.Id == Id);
+            if(oAction == null) { Console.Error.WriteLine("Aucun élément trouvé avec l'ID spécifié."); }
+            return oAction;
         }
 
         public async Task<bool> Clear(int IdJournalisation)
         {
             if (IdJournalisation <= 0) throw new ArgumentException("IdJournalisation doit être supérieur à zéro.", nameof(IdJournalisation));
-            var actions = await _dataContext.Action.Where(a => a.IdJournalisation == IdJournalisation).ToListAsync();
+            var actions = await _dataContext.Set<Action>().Where(a => a.IdJournalisation == IdJournalisation).ToListAsync();
             if (actions.Any()){  _dataContext.RemoveRange(actions);    await _dataContext.SaveChangesAsync();    }
             return true;
         }

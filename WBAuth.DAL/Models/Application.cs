@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 
 namespace WBAuth.DAL.Models{
@@ -31,13 +32,17 @@ namespace WBAuth.DAL.Models{
         public string? Url { get; set; }
 
 
-
+        [JsonIgnore]
         [Column("Logo", TypeName = "varbinary(max)")]
         public byte[]? Logo { get; set; }
 
+        [JsonIgnore]
+        public ICollection<UtilisateurApplication>? UtilisateurApplications { get; set; }
 
-        public ICollection<UtilisateurApplication>? UtilisateurApplication { get; set; }
+        [JsonIgnore]
         public ICollection<Fonction>? Fonctions { get; set; }
+
+        [JsonIgnore]
         public ICollection<Role>? Role { get; set; }
 
 

@@ -1,7 +1,7 @@
 ﻿using WBAuth.DAL.IRepository;
 using WBAuth.DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using Application = WBAuth.DAL.Models.Application;
+
 
 
 
@@ -40,7 +40,7 @@ namespace WBAuth.DAL.Repository
         }
 
 
-        public async Task<bool> Suprimer(int Id)
+        public async Task<bool> Supprimer(int Id)
         {
             if (Id < 0) throw new ArgumentNullException(nameof(Id));
             var entity = await _dataContext.Set<Application>().FirstOrDefaultAsync(item => item.Id == Id);

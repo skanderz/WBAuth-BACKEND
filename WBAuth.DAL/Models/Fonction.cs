@@ -34,7 +34,7 @@ namespace WBAuth.DAL.Models{
         public Permission? Permission { get; set; }
 
 
-        [ForeignKey("Application")]
+        [ForeignKey("Application, DeleteBehavior = DeleteBehavior.NoAction")]
         public int IdApplication { get; set; }
         public Application? Application { get; set; }
 

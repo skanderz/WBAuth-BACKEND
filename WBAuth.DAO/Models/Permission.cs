@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace WBAuth.DAO.Models
 {
     public class Permission{
@@ -14,7 +16,7 @@ namespace WBAuth.DAO.Models
         public int IdFonction { get; set; }
         public Fonction? Fonction { get; set; }
         public string? Nom { get; set; }
-        public bool[] Status { get; set; } = Enumerable.Repeat(true, 6).ToArray();
+        public string? Status { get; set; }
 
     }
 }

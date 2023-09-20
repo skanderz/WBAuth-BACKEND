@@ -19,7 +19,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> ChargerAll()
         {
             var oApplication = await _ApplicationManager.ChargerAll();
-            if (oApplication == null)   return NoContent();
+            if (oApplication == null)  return NoContent();
             return Ok(oApplication);
         }
 
@@ -42,7 +42,7 @@ namespace WBAuthBack.Controllers
         {
             if (!ModelState.IsValid)  {  return BadRequest(ModelState);  }
             var id = await _ApplicationManager.Ajouter(oApplication);
-            if (id <= 0)   return BadRequest($"Une erreur est survenue lors de la création de l'équipement {oApplication.Nom}.");
+            if (id <= 0)   return BadRequest($"Une erreur est survenue lors de la création de l'application {oApplication.Nom}.");
             return Ok(id);
         }
 
@@ -54,9 +54,9 @@ namespace WBAuthBack.Controllers
         {
             if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
             var ticketType = await _ApplicationManager.Recherche(oApplication.Id);
-            if (ticketType == null)  return NotFound("Cet équipement est introuvable'");
+            if (ticketType == null)  return NotFound("Cet application est introuvable'");
             var id = await _ApplicationManager.Modifier(oApplication);
-            if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'équipement {oApplication.Nom}.");     
+            if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'application {oApplication.Nom}.");     
             return Ok(id);
         }
 
@@ -69,7 +69,7 @@ namespace WBAuthBack.Controllers
             if (id <= 0) {   return BadRequest("Application introuvable");  }
             var Application = await _ApplicationManager.Recherche(id);
             if (Application == null)  return NotFound("Application est introuvable'");
-            var isdeleted = await _ApplicationManager.Suprimer(id);
+            var isdeleted = await _ApplicationManager.Supprimer(id);
             if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de Application.");
             return Ok(isdeleted);
         }

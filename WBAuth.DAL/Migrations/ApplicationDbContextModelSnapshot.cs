@@ -8,7 +8,7 @@ using WBAuth.DAL.Models;
 
 #nullable disable
 
-namespace SA.Data.Migrations
+namespace WBAuth.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -47,29 +47,6 @@ namespace SA.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "b6a3fdb4-ac53-4d19-aa3a-488607c473f3",
-                            ConcurrencyStamp = "1",
-                            Name = "Admin",
-                            NormalizedName = "Admin"
-                        },
-                        new
-                        {
-                            Id = "78f25646-396f-4f71-b703-8ab8a4dca3b4",
-                            ConcurrencyStamp = "2",
-                            Name = "User",
-                            NormalizedName = "user"
-                        },
-                        new
-                        {
-                            Id = "ba08372e-0eb6-4a5b-b1c8-18bd212f0230",
-                            ConcurrencyStamp = "3",
-                            Name = "HR",
-                            NormalizedName = "HR"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -243,6 +220,268 @@ namespace SA.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("WBAuth.DAL.Models.Action", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Description");
+
+                    b.Property<int>("IdJournalisation")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdJournalisation");
+
+                    b.ToTable("Action");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Application", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Description");
+
+                    b.Property<byte[]>("Logo")
+                        .HasColumnType("varbinary(max)")
+                        .HasColumnName("Logo");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnName("Nom");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnName("Url");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Application");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Fonction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("ApplicationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Description");
+
+                    b.Property<int>("IdApplication")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnName("NomAction");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnName("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationId");
+
+                    b.ToTable("Fonction");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Journalisation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AdresseIP")
+                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnName("AdresseIP");
+
+                    b.Property<DateTime>("DateConnexion")
+                        .HasColumnType("datetime")
+                        .HasColumnName("DateConnexion");
+
+                    b.Property<int>("IdUtilisateur")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdUtilisateur");
+
+                    b.ToTable("Journalisation");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("IdFonction")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdRole")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdFonction")
+                        .IsUnique();
+
+                    b.HasIndex("IdRole")
+                        .IsUnique();
+
+                    b.ToTable("Permission");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Description");
+
+                    b.Property<int>("IdApplication")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Niveau")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnName("Nom");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdApplication");
+
+                    b.ToTable("Role");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Utilisateur", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("DateInscription")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)")
+                        .HasColumnName("EMAIL");
+
+                    b.Property<string>("MotDePasse")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("MotDePasse");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnName("Nom");
+
+                    b.Property<string>("NomUtilisateur")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnName("NomUtilisateur");
+
+                    b.Property<string>("Prenom")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnName("Prenom");
+
+                    b.Property<bool?>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Utilisateur");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.UtilisateurApplication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Acces")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("IdApplication")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdRole")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdUtilisateur")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdApplication")
+                        .IsUnique();
+
+                    b.HasIndex("IdRole")
+                        .IsUnique();
+
+                    b.HasIndex("IdUtilisateur")
+                        .IsUnique();
+
+                    b.ToTable("UtilisateurApplication");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -292,6 +531,127 @@ namespace SA.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Action", b =>
+                {
+                    b.HasOne("WBAuth.DAL.Models.Journalisation", "Journalisation")
+                        .WithMany("Actions")
+                        .HasForeignKey("IdJournalisation")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Journalisation");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Fonction", b =>
+                {
+                    b.HasOne("WBAuth.DAL.Models.Application", "Application")
+                        .WithMany("Fonctions")
+                        .HasForeignKey("ApplicationId");
+
+                    b.Navigation("Application");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Journalisation", b =>
+                {
+                    b.HasOne("WBAuth.DAL.Models.Utilisateur", "Utilisateur")
+                        .WithMany("Journalisation")
+                        .HasForeignKey("IdUtilisateur")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Utilisateur");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Permission", b =>
+                {
+                    b.HasOne("WBAuth.DAL.Models.Fonction", "Fonction")
+                        .WithOne("Permission")
+                        .HasForeignKey("WBAuth.DAL.Models.Permission", "IdFonction")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WBAuth.DAL.Models.Role", "Role")
+                        .WithOne("Permission")
+                        .HasForeignKey("WBAuth.DAL.Models.Permission", "IdRole")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Fonction");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Role", b =>
+                {
+                    b.HasOne("WBAuth.DAL.Models.Application", "Application")
+                        .WithMany("Role")
+                        .HasForeignKey("IdApplication")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Application");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.UtilisateurApplication", b =>
+                {
+                    b.HasOne("WBAuth.DAL.Models.Application", "Application")
+                        .WithOne("UtilisateurApplication")
+                        .HasForeignKey("WBAuth.DAL.Models.UtilisateurApplication", "IdApplication")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WBAuth.DAL.Models.Role", "Role")
+                        .WithOne("UtilisateurApplication")
+                        .HasForeignKey("WBAuth.DAL.Models.UtilisateurApplication", "IdRole")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WBAuth.DAL.Models.Utilisateur", "Utilisateur")
+                        .WithOne("UtilisateurApplication")
+                        .HasForeignKey("WBAuth.DAL.Models.UtilisateurApplication", "IdUtilisateur")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Application");
+
+                    b.Navigation("Role");
+
+                    b.Navigation("Utilisateur");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Application", b =>
+                {
+                    b.Navigation("Fonctions");
+
+                    b.Navigation("Role");
+
+                    b.Navigation("UtilisateurApplication");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Fonction", b =>
+                {
+                    b.Navigation("Permission");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Journalisation", b =>
+                {
+                    b.Navigation("Actions");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Role", b =>
+                {
+                    b.Navigation("Permission");
+
+                    b.Navigation("UtilisateurApplication");
+                });
+
+            modelBuilder.Entity("WBAuth.DAL.Models.Utilisateur", b =>
+                {
+                    b.Navigation("Journalisation");
+
+                    b.Navigation("UtilisateurApplication");
                 });
 #pragma warning restore 612, 618
         }

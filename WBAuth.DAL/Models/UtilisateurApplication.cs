@@ -10,26 +10,25 @@ namespace WBAuth.DAL.Models
     [Table("UtilisateurApplication")]
     public class UtilisateurApplication{
 
+
         [Key]
-        [ForeignKey("Role")]
+        public int Id { get; set; }
+
+        [ForeignKey("Role, DeleteBehavior = DeleteBehavior.NoAction")]
         public int IdRole { get; set; }
         [Required]
         [InverseProperty("UtilisateurApplication")]
         public Role? Role { get; set; }
 
 
-
-        [Key]
-        [ForeignKey("Utilisateur")]
+        [ForeignKey("Utilisateur, DeleteBehavior = DeleteBehavior.NoAction")]
         public int IdUtilisateur { get; set; }
         [Required]
         [InverseProperty("UtilisateurApplication")]
         public Utilisateur? Utilisateur { get; set; }
 
 
-
-        [Key]
-        [ForeignKey("Application")]
+        [ForeignKey("Application, DeleteBehavior = DeleteBehavior.NoAction")]
         public int IdApplication { get; set; }
         [Required]
         [InverseProperty("UtilisateurApplication")]

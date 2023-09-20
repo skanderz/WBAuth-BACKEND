@@ -7,18 +7,18 @@ namespace WBAuth.DAL.Models
     [Table("Permission")]
     public class Permission{
         [Key]
-        [ForeignKey("Role")]
-        public int IdRole { get; set; }
+        public int Id { get; set; }
 
+
+        [ForeignKey("Role, DeleteBehavior = DeleteBehavior.NoAction")]
+        public int IdRole { get; set; }
         [Required]
         [InverseProperty("Permission")]
         public Role? Role { get; set; }
 
 
-        [Key] 
-        [ForeignKey("Fonction")]
+        [ForeignKey("Fonction, DeleteBehavior = DeleteBehavior.NoAction")]
         public int IdFonction { get; set; }
-
         [Required]
         [InverseProperty("Permission")]
         public Fonction? Fonction { get; set; }
@@ -27,9 +27,8 @@ namespace WBAuth.DAL.Models
         [Required]
         public string? Nom { get; set; }
 
+        public string Status { get; set; } = "111111";
 
-        [Required]
-        public bool[] Status { get; set; } = Enumerable.Repeat(true, 6).ToArray();
 
     }
 }
