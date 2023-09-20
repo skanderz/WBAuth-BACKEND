@@ -42,7 +42,7 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public Task<int> EnregistrementActions(int IdJournalisation)
+        public async Task<int> EnregistrementActions(int IdJournalisation)
         {
             // Saisir Await //
             throw new NotImplementedException();

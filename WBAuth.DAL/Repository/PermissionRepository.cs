@@ -76,26 +76,37 @@ namespace WBAuth.DAL.Repository
         {
             var permission = await _dataContext.Set<Permission>().Where(p => p.IdRole == IdRole && p.Fonction.IdApplication == IdApplication ).FirstOrDefaultAsync(p => p.Id == Id);
             if (permission == null) throw new ArgumentNullException(nameof(permission));
-            if (permission.Fonction.Type == "unique"){   if(permission.Status != "1") permission.Status = "1";  else permission.Status = "0";   }
+            if (permission.Fonction.Type == "unique"){   if(permission.Status != 1) permission.Status = 1;  else permission.Status = 0;   }
             if (permission.Fonction.Type == "multi"){
+              string p = permission.Status.ToString();
                 switch (i){
-                    case 1: char x = permission.Status[0];  break;
-                    case 2:  break;
-                    case 3:  break;
-                    case 4:  break;
-                    case 5:  break;
-                    case 6:  break;
-                    default: Console.WriteLine("la permission ne correspond à aucune case ou erreur technique");  break;
-                }
+                case 1: if (p[i - 1] == '1') permission.Status -= 1; else permission.Status += 1; break;
+                case 2: if (p[i - 1] == '1') permission.Status -= 10; else permission.Status += 10; break;
+                case 3: if (p[i - 1] == '1') permission.Status -= 100; else permission.Status += 100; break;
+                case 4: if (p[i - 1] == '1') permission.Status -= 1000; else permission.Status += 1000; break;
+                case 5: if (p[i - 1] == '1') permission.Status -= 10000; else permission.Status += 10000; break;
+                case 6: if (p[i - 1] == '1') permission.Status -= 100000; else permission.Status += 100000; break;
+                default: Console.WriteLine("erreur technique ou la permission ne correspond à aucune case "); break;
+              }
             }
+            var entity = await _dataContext.Set<Permission>().FirstOrDefaultAsync(p => p.Id == Id);
+            if (entity != null) throw new ArgumentNullException(nameof(entity));
+            entity.Status = permission.Status;
+            _dataContext.Entry(entity).State = EntityState.Modified;
+            await _dataContext.SaveChangesAsync();
             return permission.Id;
         }
 
 
-        public async Task<bool> Supprimer(int Id, int IdApplication, int IdRole)
+        public async Task<bool> Supprimer(int Id)
         {
-            throw new NotImplementedException();
+            var entity = await _dataContext.Set<Permission>().FirstOrDefaultAsync(item => item.Id == Id);
+            if(entity == null) throw new ArgumentNullException(nameof(entity));
+            _dataContext.Entry(entity).State = EntityState.Deleted;
+            await _dataContext.SaveChangesAsync();
+            return true;
         }
+
 
 
 

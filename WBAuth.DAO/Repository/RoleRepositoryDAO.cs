@@ -24,7 +24,7 @@ namespace WBAuth.DAO.Repository
 
         #endregion Constructeur
 
-        public Task<IEnumerable<Role>> ChargerAll(int idApplication)
+        public async Task<IEnumerable<Role>> ChargerAll(int idApplication)
         {
                 //return await _dataContext.Set<Role>().ToListAsync();
 

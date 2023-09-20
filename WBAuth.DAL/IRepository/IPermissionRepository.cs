@@ -10,9 +10,9 @@ namespace WBAuth.DAL.IRepository
         Task<Permission> RechercheMultiFonction(int Id, int IdApplication, int IdRole);
         Task<Permission> RechercheFonctionUnique(int Id, int IdApplication, int IdRole);
         Task<int> Ajouter(Permission oPermission);
-        Task<int> Modifier(Permission oPermission);
+        Task<int> Modifier(Permission oPermission ,string type);
         Task<int> ModifierAcces(int Id, int IdApplication, int IdRole ,int i);
-        Task<bool> Supprimer(int Id ,int IdApplication, int IdRole);
+        Task<bool> Supprimer(int Id);
        
     }
 }

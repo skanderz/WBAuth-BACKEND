@@ -26,7 +26,7 @@ namespace WBAuth.DAO.Repository
 
         #endregion Constructeur
 
-        public Task<IEnumerable<Action>> ChargerListe(int IdJournalisation)
+        public async Task<IEnumerable<Action>> ChargerListe(int IdJournalisation)
         {
                 //return await _dataContext.Set<Action>().ToListAsync();
 

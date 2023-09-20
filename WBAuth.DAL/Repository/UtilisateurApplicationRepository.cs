@@ -55,17 +55,17 @@ namespace WBAuth.DAL.Repository
             return await _dataContext.Set<UtilisateurApplication>().FirstOrDefaultAsync(item => item.Id == Id);
         }
 
-        public Task<IEnumerable<UtilisateurApplication>> ChargerAll(int IdApplication)
+        public async Task<IEnumerable<UtilisateurApplication>> ChargerAll(int IdApplication)
         {
             throw new NotImplementedException();
         }
 
-        public Task<UtilisateurApplication> Recherche(string NomUtilisateur)
+        public async Task<UtilisateurApplication> Recherche(string NomUtilisateur)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> ModifierAccesRole(int IdApplication, int IdUtilisateur, int IdRole)
+        public async Task<int> ModifierAccesRole(int IdApplication, int IdUtilisateur, int IdRole)
         {
             throw new NotImplementedException();
         }

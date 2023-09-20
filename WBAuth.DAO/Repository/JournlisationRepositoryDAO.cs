@@ -12,7 +12,7 @@ namespace WBAuth.DAO.Repository
         {
 
 
-        public Task<IEnumerable<Journalisation>> ChargerListe(string NomUtilisateur)
+        public async Task<IEnumerable<Journalisation>> ChargerListe(string NomUtilisateur)
         {
                 //return await _dataContext.Set<Journalisation>().ToListAsync();
 

@@ -55,7 +55,7 @@ namespace WBAuth.DAL.Repository
             return await _dataContext.Set<Role>().FirstOrDefaultAsync(item => item.Id == Id);
         }
 
-        public Task<IEnumerable<Role>> ChargerAll(int idApplication)
+        public async Task<IEnumerable<Role>> ChargerAll(int idApplication)
         {
             throw new NotImplementedException();
         }
