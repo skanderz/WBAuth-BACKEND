@@ -1,7 +1,4 @@
-﻿using WBAuth.BO;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Action = WBAuth.BO.Action;
+﻿using Action = WBAuth.BO.Action;
 
 
 namespace WBAuth.BLL.IManager

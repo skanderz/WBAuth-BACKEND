@@ -5,7 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WBAuth.DAL.Models
 {
     [Table("Journalisation")]
-    public class Journalisation{
+    public class Journalisation
+    {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("Id")]

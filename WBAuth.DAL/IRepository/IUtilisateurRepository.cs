@@ -10,7 +10,7 @@ namespace WBAuth.DAL.IRepository
         Task<int> Ajouter(Utilisateur oUtilisateur);
         Task<int> Modifier(Utilisateur oUtilisateur);
         Task<bool> Supprimer(int Id);
-       
+
     }
 }
 

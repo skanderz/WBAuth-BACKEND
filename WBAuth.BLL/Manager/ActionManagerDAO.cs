@@ -2,13 +2,11 @@
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using WBAuth.DAO.IRepository;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 
 namespace WBAuth.BLL.Manager
 {
-   public class ActionManagerDAO : IActionManagerDAO
+    public class ActionManagerDAO : IActionManagerDAO
     {
         private readonly IActionRepositoryDAO _IActionRepository;
         private readonly IMapper _mapper;

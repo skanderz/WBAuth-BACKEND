@@ -1,6 +1,6 @@
-﻿using WBAuth.DAL.IRepository;
+﻿using Microsoft.EntityFrameworkCore;
+using WBAuth.DAL.IRepository;
 using WBAuth.DAL.Models;
-using Microsoft.EntityFrameworkCore;
 using Journalisation = WBAuth.DAL.Models.Journalisation;
 
 
@@ -10,7 +10,7 @@ namespace WBAuth.DAL.Repository
     public class JournalisationRepository : IJournalisationRepository
     {
         private readonly ApplicationDbContext _dataContext;
-        public JournalisationRepository(ApplicationDbContext dataContext){ _dataContext = dataContext; }
+        public JournalisationRepository(ApplicationDbContext dataContext) { _dataContext = dataContext; }
 
 
         public async Task<IEnumerable<Journalisation>> ChargerListe(int IdUtilisateur)
@@ -22,7 +22,7 @@ namespace WBAuth.DAL.Repository
         {
             var oJournalisation = await _dataContext.Set<Journalisation>().FirstOrDefaultAsync(j => j.Id == Id);
             if (oJournalisation == null) Console.Error.WriteLine("Aucun élément trouvé avec l'ID spécifié.");
-            return oJournalisation;  
+            return oJournalisation;
         }
 
 

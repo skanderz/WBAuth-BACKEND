@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WBAuth.DAO.Models
+﻿namespace WBAuth.DAO.Models
 {
-    public class Journalisation{
+    public class Journalisation
+    {
 
         public int IdJournalisation { get; set; }
         public string? AdresseIP { get; set; }

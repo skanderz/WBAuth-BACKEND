@@ -2,13 +2,11 @@
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using WBAuth.DAO.IRepository;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 
 namespace WBAuth.BLL.Manager
 {
-   public class FonctionManagerDAO : IFonctionManagerDAO
+    public class FonctionManagerDAO : IFonctionManagerDAO
     {
         private readonly IFonctionRepositoryDAO _IFonctionRepository;
         private readonly IMapper _mapper;

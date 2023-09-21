@@ -1,6 +1,6 @@
-﻿using WBAuth.DAL.IRepository;
+﻿using Microsoft.EntityFrameworkCore;
+using WBAuth.DAL.IRepository;
 using WBAuth.DAL.Models;
-using Microsoft.EntityFrameworkCore;
 using Utilisateur = WBAuth.DAL.Models.Utilisateur;
 
 
@@ -10,7 +10,7 @@ namespace WBAuth.DAL.Repository
     public class UtilisateurRepository : IUtilisateurRepository
     {
         private readonly ApplicationDbContext _dataContext;
-        public UtilisateurRepository(ApplicationDbContext dataContext){ _dataContext = dataContext; }
+        public UtilisateurRepository(ApplicationDbContext dataContext) { _dataContext = dataContext; }
 
 
 
@@ -26,15 +26,16 @@ namespace WBAuth.DAL.Repository
             return oUtilisateur.Id;
         }
 
-        public async  Task<int> Modifier(Utilisateur oUtilisateur)
+
+        public async Task<int> Modifier(Utilisateur oUtilisateur)
         {
             if (oUtilisateur == null) throw new ArgumentNullException(nameof(oUtilisateur));
-            var entity = await _dataContext.Set<Utilisateur>().FirstOrDefaultAsync(item => item.Id == oUtilisateur.Id);
+            var entity = await _dataContext.Set<Utilisateur>().FirstOrDefaultAsync(u => u.Id == oUtilisateur.Id);
+            entity.Email = oUtilisateur.Email;
+            entity.Status = oUtilisateur.Status;
             entity.Nom = oUtilisateur.Nom;
-            entity.Description = oUtilisateur.Description;
-            entity.Url = oUtilisateur.Url;
-            entity.Logo = oUtilisateur.Logo;
-            _dataContext.Entry<Utilisateur>(entity).State = EntityState.Modified;
+            entity.Prenom = oUtilisateur.Prenom;
+            _dataContext.Entry(entity).State = EntityState.Modified;
             await _dataContext.SaveChangesAsync();
             return oUtilisateur.Id;
         }
@@ -43,7 +44,7 @@ namespace WBAuth.DAL.Repository
         public async Task<bool> Supprimer(int Id)
         {
             if (Id < 0) throw new ArgumentNullException(nameof(Id));
-            var entity = await _dataContext.Set<Utilisateur>().FirstOrDefaultAsync(item => item.Id == Id);
+            var entity = await _dataContext.Set<Utilisateur>().FirstOrDefaultAsync(u => u.Id == Id);
             _dataContext.Entry<Utilisateur>(entity).State = EntityState.Deleted;
             await _dataContext.SaveChangesAsync();
             return true;
@@ -52,8 +53,12 @@ namespace WBAuth.DAL.Repository
 
         public async Task<Utilisateur> Recherche(int Id)
         {
-            return await _dataContext.Set<Utilisateur>().FirstOrDefaultAsync(item => item.Id == Id);
+            return await _dataContext.Set<Utilisateur>().FirstOrDefaultAsync(u => u.Id == Id);
         }
+
+
+
+
 
 
     }

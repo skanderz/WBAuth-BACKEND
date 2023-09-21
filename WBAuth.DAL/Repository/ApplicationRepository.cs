@@ -1,6 +1,6 @@
-﻿using WBAuth.DAL.IRepository;
+﻿using Microsoft.EntityFrameworkCore;
+using WBAuth.DAL.IRepository;
 using WBAuth.DAL.Models;
-using Microsoft.EntityFrameworkCore;
 
 
 
@@ -10,7 +10,7 @@ namespace WBAuth.DAL.Repository
     public class ApplicationRepository : IApplicationRepository
     {
         private readonly ApplicationDbContext _dataContext;
-        public ApplicationRepository(ApplicationDbContext dataContext){ _dataContext = dataContext; }
+        public ApplicationRepository(ApplicationDbContext dataContext) { _dataContext = dataContext; }
 
 
 
@@ -26,7 +26,7 @@ namespace WBAuth.DAL.Repository
             return oApplication.Id;
         }
 
-        public async  Task<int> Modifier(Application oApplication)
+        public async Task<int> Modifier(Application oApplication)
         {
             if (oApplication == null) throw new ArgumentNullException(nameof(oApplication));
             var entity = await _dataContext.Set<Application>().FirstOrDefaultAsync(item => item.Id == oApplication.Id);

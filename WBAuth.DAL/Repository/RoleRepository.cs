@@ -1,6 +1,6 @@
-﻿using WBAuth.DAL.IRepository;
+﻿using Microsoft.EntityFrameworkCore;
+using WBAuth.DAL.IRepository;
 using WBAuth.DAL.Models;
-using Microsoft.EntityFrameworkCore;
 using Role = WBAuth.DAL.Models.Role;
 
 
@@ -10,12 +10,22 @@ namespace WBAuth.DAL.Repository
     public class RoleRepository : IRoleRepository
     {
         private readonly ApplicationDbContext _dataContext;
-        public RoleRepository(ApplicationDbContext dataContext){ _dataContext = dataContext; }
+        public RoleRepository(ApplicationDbContext dataContext) { _dataContext = dataContext; }
 
 
 
-        public async Task<IEnumerable<Role>> ChargerAll() { return await _dataContext.Set<Role>().ToListAsync(); }
+        public async Task<IEnumerable<Role>> ChargerAll(int idApplication)
+        {
+            var role = await _dataContext.Set<Role>().Where(r => r.IdApplication == idApplication).ToListAsync();
+            if (role == null) throw new ArgumentNullException("Liste Introuvable");
+            return role;
+        }
 
+
+        public async Task<Role> Recherche(int Id)
+        {
+            return await _dataContext.Set<Role>().FirstOrDefaultAsync(item => item.Id == Id);
+        }
 
 
         public async Task<int> Ajouter(Role oRole)
@@ -26,15 +36,14 @@ namespace WBAuth.DAL.Repository
             return oRole.Id;
         }
 
-        public async  Task<int> Modifier(Role oRole)
+
+        public async Task<int> Modifier(Role oRole)
         {
             if (oRole == null) throw new ArgumentNullException(nameof(oRole));
             var entity = await _dataContext.Set<Role>().FirstOrDefaultAsync(item => item.Id == oRole.Id);
             entity.Nom = oRole.Nom;
-            entity.Description = oRole.Description;
-            entity.Url = oRole.Url;
-            entity.Logo = oRole.Logo;
-            _dataContext.Entry<Role>(entity).State = EntityState.Modified;
+            entity.Niveau = oRole.Niveau;
+            _dataContext.Entry(entity).State = EntityState.Modified;
             await _dataContext.SaveChangesAsync();
             return oRole.Id;
         }
@@ -42,23 +51,21 @@ namespace WBAuth.DAL.Repository
 
         public async Task<bool> Supprimer(int Id)
         {
-            if (Id < 0) throw new ArgumentNullException(nameof(Id));
             var entity = await _dataContext.Set<Role>().FirstOrDefaultAsync(item => item.Id == Id);
-            _dataContext.Entry<Role>(entity).State = EntityState.Deleted;
+            if (entity == null) throw new ArgumentNullException("Objet introuvable");
+            _dataContext.Entry(entity).State = EntityState.Deleted;
             await _dataContext.SaveChangesAsync();
             return true;
         }
 
 
-        public async Task<Role> Recherche(int Id)
-        {
-            return await _dataContext.Set<Role>().FirstOrDefaultAsync(item => item.Id == Id);
-        }
 
-        public async Task<IEnumerable<Role>> ChargerAll(int idApplication)
-        {
-            throw new NotImplementedException();
-        }
+
+
+
+
+
+
     }
 }
 

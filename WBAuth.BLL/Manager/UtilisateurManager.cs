@@ -1,16 +1,13 @@
-﻿using WBAuth.DAL.IRepository;
+﻿using AutoMapper;
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
-using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using WBAuth.DAL.IRepository;
 
 
 
 namespace WBAuth.BLL.Manager
 {
-   public class UtilisateurManager : IUtilisateurManager
+    public class UtilisateurManager : IUtilisateurManager
     {
         private readonly IUtilisateurRepository _IUtilisateurRepository;
         private readonly IMapper _mapper;
@@ -25,7 +22,7 @@ namespace WBAuth.BLL.Manager
         public async Task<int> Ajouter(Utilisateur oUtilisateur)
         {
             if (oUtilisateur == null) throw new ArgumentNullException(nameof(oUtilisateur));
-            var entity = _mapper.Map<DAL.Models.Utilisateur> (oUtilisateur);
+            var entity = _mapper.Map<DAL.Models.Utilisateur>(oUtilisateur);
             var id = await _IUtilisateurRepository.Ajouter(entity);
             return id;
         }
@@ -56,7 +53,7 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<bool> Supprimer(int Id)   {   return await _IUtilisateurRepository.Supprimer(Id);     }
+        public async Task<bool> Supprimer(int Id) { return await _IUtilisateurRepository.Supprimer(Id); }
 
 
 

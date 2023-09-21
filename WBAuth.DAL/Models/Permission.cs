@@ -5,7 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WBAuth.DAL.Models
 {
     [Table("Permission")]
-    public class Permission{
+    public class Permission
+    {
         [Key]
         public int Id { get; set; }
 

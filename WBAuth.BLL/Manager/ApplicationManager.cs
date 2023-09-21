@@ -1,16 +1,13 @@
-﻿using WBAuth.DAL.IRepository;
+﻿using AutoMapper;
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
-using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using WBAuth.DAL.IRepository;
 
 
 
 namespace WBAuth.BLL.Manager
 {
-   public class ApplicationManager : IApplicationManager
+    public class ApplicationManager : IApplicationManager
     {
         private readonly IApplicationRepository _IApplicationRepository;
         private readonly IMapper _mapper;
@@ -25,7 +22,7 @@ namespace WBAuth.BLL.Manager
         public async Task<int> Ajouter(Application oApplication)
         {
             if (oApplication == null) throw new ArgumentNullException(nameof(oApplication));
-            var entity = _mapper.Map<DAL.Models.Application> (oApplication);
+            var entity = _mapper.Map<DAL.Models.Application>(oApplication);
             var id = await _IApplicationRepository.Ajouter(entity);
             return id;
         }
@@ -56,7 +53,7 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<bool> Supprimer(int Id)   {   return await _IApplicationRepository.Supprimer(Id);     }
+        public async Task<bool> Supprimer(int Id) { return await _IApplicationRepository.Supprimer(Id); }
 
 
 

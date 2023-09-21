@@ -1,6 +1,4 @@
 ﻿using WBAuth.BO;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 
 namespace WBAuth.BLL.IManager
@@ -13,7 +11,7 @@ namespace WBAuth.BLL.IManager
         Task<Permission> RechercheFonctionUnique(int Id, int IdApplication, int IdRole);
         Task<int> Ajouter(Permission oPermission);
         Task<int> Modifier(Permission oPermission, string type);
-        Task<int> ModifierAcces(int Id, int IdApplication, int IdRole ,int i);
+        Task<int> ModifierAcces(int Id, int IdApplication, int IdRole, int i);
         Task<bool> Supprimer(int Id);
     }
 

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace WBAuth.DAL.Models
 {
     [Table("Role")]
-    public class Role{
+    public class Role
+    {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("Id")]
@@ -32,8 +28,6 @@ namespace WBAuth.DAL.Models
 
         public ICollection<Permission>? Permissions { get; set; }
         public ICollection<UtilisateurApplication>? UtilisateurApplications { get; set; }
-
-
 
 
         [ForeignKey("Application")]

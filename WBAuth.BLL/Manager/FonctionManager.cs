@@ -1,16 +1,13 @@
-﻿using WBAuth.DAL.IRepository;
+﻿using AutoMapper;
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
-using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using WBAuth.DAL.IRepository;
 
 
 
 namespace WBAuth.BLL.Manager
 {
-   public class FonctionManager : IFonctionManager
+    public class FonctionManager : IFonctionManager
     {
         private readonly IFonctionRepository _IFonctionRepository;
         private readonly IMapper _mapper;
@@ -56,7 +53,7 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<bool> Supprimer(int Id, int IdApplication)   {   return await _IFonctionRepository.Supprimer(Id, IdApplication);     }
+        public async Task<bool> Supprimer(int Id, int IdApplication) { return await _IFonctionRepository.Supprimer(Id, IdApplication); }
 
 
 

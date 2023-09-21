@@ -1,9 +1,4 @@
-﻿using WBAuth.BO;
-using Action = WBAuth.BO.Action;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Action = WBAuth.BO.Action;
 
 
 namespace WBAuth.BLL.IManager
@@ -11,6 +6,6 @@ namespace WBAuth.BLL.IManager
     public interface IActionManagerDAO
     {
         Task<IEnumerable<Action>> ChargerAll();
-      
+
     }
 }

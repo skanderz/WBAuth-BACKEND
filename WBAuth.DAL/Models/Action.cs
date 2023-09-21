@@ -2,9 +2,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace WBAuth.DAL.Models {
-   [Table("Action")]
-   public class Action{
+namespace WBAuth.DAL.Models
+{
+    [Table("Action")]
+    public class Action
+    {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("Id")]
@@ -25,5 +27,5 @@ namespace WBAuth.DAL.Models {
         public Journalisation? Journalisation { get; set; }
 
 
-   }
+    }
 }

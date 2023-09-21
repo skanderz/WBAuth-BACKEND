@@ -7,7 +7,7 @@ namespace WBAuth.DAO.IRepository
     {
         Task<IEnumerable<UtilisateurApplication>> ChargerAll(int IdApplication);
 
-       
+
     }
 }
 

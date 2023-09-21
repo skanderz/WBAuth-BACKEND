@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections;
 
 
 namespace WBAuth.DAL.Models
 {
     [Table("Utilisateur")]
-    public class Utilisateur{
+    public class Utilisateur
+    {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("Id")]

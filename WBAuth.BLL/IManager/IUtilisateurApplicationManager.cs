@@ -1,15 +1,14 @@
 ﻿using WBAuth.BO;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 
 namespace WBAuth.BLL.IManager
 {
     public interface IUtilisateurApplicationManager
     {
-        Task<IEnumerable<UtilisateurApplication>> ChargerAll(int IdApplication);
-        Task<UtilisateurApplication> Recherche(string NomUtilisateur);
-        Task<int> ModifierAccesRole(int IdApplication, int IdUtilisateur, int IdRole);
+        Task<IEnumerable<UtilisateurApplication>> ChargerAllByApplication(int IdApplication);
+        Task<IEnumerable<UtilisateurApplication>> ChargerAllByUtilisateur(int IdUtilisateur);
+        Task<UtilisateurApplication> Recherche(int IdUtilisateur, int IdApplication);
+        Task<int> ModifierAccesRole(int IdUtilisateur, bool Acces, string NomRole);
     }
 
 

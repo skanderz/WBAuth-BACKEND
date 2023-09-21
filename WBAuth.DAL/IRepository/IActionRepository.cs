@@ -9,7 +9,7 @@ namespace WBAuth.DAL.IRepository
         Task<Action> Recherche(int Id);
         Task<int> EnregistrementActions(int IdJournalisation);
         Task<bool> Clear(int Id);
-       
+
     }
 }
 

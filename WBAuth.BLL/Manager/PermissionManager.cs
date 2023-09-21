@@ -1,16 +1,13 @@
-﻿using WBAuth.DAL.IRepository;
+﻿using AutoMapper;
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
-using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using WBAuth.DAL.IRepository;
 
 
 
 namespace WBAuth.BLL.Manager
 {
-   public class PermissionManager : IPermissionManager
+    public class PermissionManager : IPermissionManager
     {
         private readonly IPermissionRepository _IPermissionRepository;
         private readonly IMapper _mapper;
@@ -48,11 +45,11 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<int> Modifier(Permission oPermission,string type)
+        public async Task<int> Modifier(Permission oPermission, string type)
         {
             if (oPermission == null) throw new ArgumentNullException(nameof(oPermission));
             var entity = _mapper.Map<DAL.Models.Permission>(oPermission);
-            var id = await _IPermissionRepository.Modifier(entity ,type);
+            var id = await _IPermissionRepository.Modifier(entity, type);
             return id;
         }
 
@@ -61,7 +58,7 @@ namespace WBAuth.BLL.Manager
         {
             var oPermission = await _IPermissionRepository.RechercheMultiFonction(Id, IdApplication, IdRole);
             var entity = _mapper.Map<DAL.Models.Permission>(oPermission);
-            var id = await _IPermissionRepository.ModifierAcces(entity.Id ,entity.Fonction.IdApplication ,entity.IdRole,i);
+            var id = await _IPermissionRepository.ModifierAcces(entity.Id, entity.Fonction.IdApplication, entity.IdRole, i);
             return id;
         }
 

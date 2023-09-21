@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-
-
-namespace WBAuth.BO
+﻿namespace WBAuth.BO
 {
-    public class UtilisateurApplication{
+    public class UtilisateurApplication
+    {
 
         public int IdRole { get; set; }
         public Role? Role { get; set; }

@@ -2,13 +2,11 @@
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using WBAuth.DAO.IRepository;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 
 namespace WBAuth.BLL.Manager
 {
-   public class ApplicationManagerDAO : IApplicationManagerDAO
+    public class ApplicationManagerDAO : IApplicationManagerDAO
     {
         private readonly IApplicationRepositoryDAO _IApplicationRepository;
         private readonly IMapper _mapper;

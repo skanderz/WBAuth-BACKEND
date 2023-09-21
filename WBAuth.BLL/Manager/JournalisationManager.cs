@@ -1,16 +1,13 @@
-﻿using WBAuth.DAL.IRepository;
+﻿using AutoMapper;
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
-using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using WBAuth.DAL.IRepository;
 
 
 
 namespace WBAuth.BLL.Manager
 {
-   public class JournalisationManager : IJournalisationManager
+    public class JournalisationManager : IJournalisationManager
     {
         private readonly IJournalisationRepository _IJournalisationRepository;
         private readonly IMapper _mapper;
@@ -42,7 +39,7 @@ namespace WBAuth.BLL.Manager
 
 
 
-        public async Task<bool> Clear(int Id){    return await _IJournalisationRepository.Clear(Id);    }
+        public async Task<bool> Clear(int Id) { return await _IJournalisationRepository.Clear(Id); }
 
 
         public async Task<int> EnregistrementJournalisation(int IdUtilisateur)

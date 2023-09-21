@@ -1,17 +1,13 @@
-﻿using WBAuth.DAL.IRepository;
+﻿using AutoMapper;
 using WBAuth.BLL.IManager;
-using WBAuth.BO;
-using AutoMapper;
+using WBAuth.DAL.IRepository;
 using Action = WBAuth.BO.Action;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 
 
 namespace WBAuth.BLL.Manager
 {
-   public class ActionManager : IActionManager
+    public class ActionManager : IActionManager
     {
         private readonly IActionRepository _IActionRepository;
         private readonly IMapper _mapper;
@@ -42,7 +38,7 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<int> EnregistrementActions(int IdJournalisation)
+        public Task<int> EnregistrementActions(int IdJournalisation)
         {
             // Saisir Await //
             throw new NotImplementedException();

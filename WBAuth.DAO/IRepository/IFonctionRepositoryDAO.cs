@@ -1,8 +1,4 @@
 ﻿using WBAuth.DAO.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace WBAuth.DAO.IRepository
@@ -11,6 +7,6 @@ namespace WBAuth.DAO.IRepository
     {
         Task<IEnumerable<Fonction>> ChargerAll(int IdApplication);
 
-       
+
     }
 }
