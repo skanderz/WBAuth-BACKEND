@@ -45,8 +45,4 @@
     <ProjectReference Include="..\WBAuth.DAL\WBAuth.DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
