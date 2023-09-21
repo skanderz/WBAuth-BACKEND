@@ -2,6 +2,7 @@
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using Microsoft.AspNetCore.Mvc;
+using WBAuth.BLL.Manager;
 
 namespace WBAuthBack.Controllers
 {
@@ -15,10 +16,10 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Journalisation/List
         [HttpGet]
-        [Route("List")]
-        public async Task<IActionResult> ChargerAll()
+        [Route("List/{IdUtilisateur}")]
+        public async Task<IActionResult> ChargerListe(int IdUtilisateur)
         {
-            var oJournalisation = await _JournalisationManager.ChargerAll();
+            var oJournalisation = await _JournalisationManager.ChargerListe(IdUtilisateur);
             if (oJournalisation == null)  return NoContent();
             return Ok(oJournalisation);
         }
@@ -26,51 +27,39 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Journalisation/idJournalisation
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> ChargerJournalisation(int id)
+        [Route("{Id}")]
+        public async Task<IActionResult> Recherche(int Id)
         {
-            var oJournalisation = await _JournalisationManager.Recherche(id);
+            var oJournalisation = await _JournalisationManager.Recherche(Id);
             if (oJournalisation == null)  return NoContent();
             return Ok(oJournalisation);
         }
 
 
-        //POST : api/Journalisation/ajouter
+
+        //POST : api/Journalisation/EnregistrementJournalisations
         [HttpPost]
-        [Route("ajouter")]
-        public async Task<IActionResult> Ajouter([FromBody] Journalisation oJournalisation)
+        [Route("EnregistrementJournalisations")]
+        public async Task<IActionResult> EnregistrementJournalisations([FromBody] Journalisation oJournalisation)
         {
-            if (!ModelState.IsValid)  {  return BadRequest(ModelState);  }
-            var id = await _JournalisationManager.Ajouter(oJournalisation);
-            if (id <= 0)   return BadRequest($"Une erreur est survenue lors de la création de l'Journalisation {oJournalisation.Nom}.");
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            var id = await _JournalisationManager.EnregistrementJournalisation(oJournalisation.IdUtilisateur);
+            if (id <= 0) return BadRequest($"Une erreur est survenue lors de la création de la Journalisation a la date : {oJournalisation.DateConnexion}.");
             return Ok(id);
         }
 
 
-        //PUT : api/Journalisation/modifier
-        [HttpPut]
-        [Route("modifier")]
-        public async Task<IActionResult> Modifier([FromBody] Journalisation oJournalisation)
-        {
-            if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            var ticketType = await _JournalisationManager.Recherche(oJournalisation.Id);
-            if (ticketType == null)  return NotFound("Cet Journalisation est introuvable'");
-            var id = await _JournalisationManager.Modifier(oJournalisation);
-            if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'Journalisation {oJournalisation.Nom}.");     
-            return Ok(id);
-        }
 
-
-        //DELETE : api/Journalisation/supprimer
+        //DELETE : api/Journalisation/clear
         [HttpDelete]
-        [Route("supprimer")]
-        public async Task<IActionResult> Supprimer(int id)
+        [Route("clear")]
+        public async Task<IActionResult> Clear(int IdUtilisateur)
         {
-            if (id <= 0) {   return BadRequest("Journalisation introuvable");  }
-            var Journalisation = await _JournalisationManager.Recherche(id);
-            if (Journalisation == null)  return NotFound("Journalisation est introuvable'");
-            var isdeleted = await _JournalisationManager.Supprimer(id);
-            if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de Journalisation.");
+            if (IdUtilisateur <= 0) { return BadRequest("Journalisation introuvable"); }
+            var Journalisations = await _JournalisationManager.ChargerListe(IdUtilisateur);
+            if (Journalisations == null) return NotFound("Liste de journalisations introuvable'");
+            var isdeleted = await _JournalisationManager.Clear(IdUtilisateur);
+            if (!isdeleted) return BadRequest($"Une erreur est survenue lors de la suppression de Journalisation.");
             return Ok(isdeleted);
         }
 

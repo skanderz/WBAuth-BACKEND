@@ -8,7 +8,7 @@ namespace WBAuth.BLL.IManager
         Task<IEnumerable<Journalisation>> ChargerListe(int IdUtilisateur);
         Task<Journalisation> Recherche(int Id);
         Task<int> EnregistrementJournalisation(int IdUtilisateur);
-        Task<bool> Clear(int Id);
+        Task<bool> Clear(int IdUtilisateur);
     }
 
 

@@ -13,12 +13,36 @@ namespace WBAuthBack.Controllers
         public PermissionController(IPermissionManager PermissionManager)  { _PermissionManager = PermissionManager;  }
 
 
+
         //GET : api/Permission/List
         [HttpGet]
-        [Route("List")]
-        public async Task<IActionResult> ChargerAll()
+        [Route("ListMultiFonction/{IdApplication}/{IdRole}")]
+        public async Task<IActionResult> ChargerAllMultiFonction(int IdApplication, int IdRole)
         {
-            var oPermission = await _PermissionManager.ChargerAll();
+            var permissions = await _PermissionManager.ChargerAllMultiFonction(IdApplication, IdRole);
+            if (permissions == null)  return NoContent();
+            return Ok(permissions);
+        }
+
+
+        //GET : api/Permission/List
+        [HttpGet]
+        [Route("ListFonctionUnique/{IdApplication}/{IdRole}")]
+        public async Task<IActionResult> ChargerAllFonctionUnique(int IdApplication, int IdRole)
+        {
+            var permissions = await _PermissionManager.ChargerAllFonctionUnique(IdApplication, IdRole);
+            if (permissions == null) return NoContent();
+            return Ok(permissions);
+        }
+
+
+
+        //GET : api/Permission/idPermission
+        [HttpGet]
+        [Route("RechercheFonctionUnique/{id}/{IdApplication}/{IdRole}")]
+        public async Task<IActionResult> RechercheMultiFonction(int Id, int IdApplication, int IdRole)
+        {
+            var oPermission = await _PermissionManager.RechercheMultiFonction(Id, IdApplication, IdRole);
             if (oPermission == null)  return NoContent();
             return Ok(oPermission);
         }
@@ -26,11 +50,11 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Permission/idPermission
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> ChargerPermission(int id)
+        [Route("RechercheMultiFonction/{id}/{IdApplication}/{IdRole}")]
+        public async Task<IActionResult> RechercheFonctionUnique(int Id, int IdApplication, int IdRole)
         {
-            var oPermission = await _PermissionManager.Recherche(id);
-            if (oPermission == null)  return NoContent();
+            var oPermission = await _PermissionManager.RechercheFonctionUnique(Id, IdApplication, IdRole);
+            if (oPermission == null) return NoContent();
             return Ok(oPermission);
         }
 
@@ -42,7 +66,7 @@ namespace WBAuthBack.Controllers
         {
             if (!ModelState.IsValid)  {  return BadRequest(ModelState);  }
             var id = await _PermissionManager.Ajouter(oPermission);
-            if (id <= 0)   return BadRequest($"Une erreur est survenue lors de la création de l'Permission {oPermission.Nom}.");
+            if (id <= 0)   return BadRequest($"Une erreur est survenue lors de la création de la Permission {oPermission.Nom}.");
             return Ok(id);
         }
 
@@ -50,15 +74,39 @@ namespace WBAuthBack.Controllers
         //PUT : api/Permission/modifier
         [HttpPut]
         [Route("modifier")]
-        public async Task<IActionResult> Modifier([FromBody] Permission oPermission)
+        public async Task<IActionResult> Modifier([FromBody] Permission oPermission ,string type)
         {
             if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            var ticketType = await _PermissionManager.Recherche(oPermission.Id);
-            if (ticketType == null)  return NotFound("Cet Permission est introuvable'");
-            var id = await _PermissionManager.Modifier(oPermission);
-            if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'Permission {oPermission.Nom}.");     
+            if(oPermission.Fonction.Type == "unique"){ 
+                var perm = await _PermissionManager.RechercheFonctionUnique(oPermission.Id, oPermission.Fonction.IdApplication, oPermission.IdRole);
+                if (perm == null)  return NotFound("Cet Permission est introuvable'");
+            }
+            if (oPermission.Fonction.Type == "multi"){
+                var perm = await _PermissionManager.RechercheMultiFonction(oPermission.Id, oPermission.Fonction.IdApplication, oPermission.IdRole);
+                if (perm == null) return NotFound("Cet Permission est introuvable'");
+            }
+
+            var id = await _PermissionManager.Modifier(oPermission ,type);
+            if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de le Permission: {oPermission.Nom}.");     
             return Ok(id);
         }
+
+
+        //PUT : api/Permission/modifierAcces
+        [HttpPut]
+        [Route("modifierAcces")]
+        public async Task<IActionResult> ModifierAcces(int Id, int IdApplication, int IdRole, int i)
+        {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            var perm = await _PermissionManager.RechercheFonctionUnique(Id, IdApplication, IdRole);
+            var perm2 = await _PermissionManager.RechercheMultiFonction(Id, IdApplication, IdRole);
+            if (perm == null && perm2 == null) return NotFound("Cet Permission est introuvable'");
+
+            var id = await _PermissionManager.ModifierAcces(Id, IdApplication, IdRole, i);
+            if (id <= 0) return BadRequest($"Une erreur est survenue lors de la mise à jour de le Permission avec l'id : {Id}.");
+            return Ok(id);
+        }
+
 
 
         //DELETE : api/Permission/supprimer
@@ -67,8 +115,6 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Supprimer(int id)
         {
             if (id <= 0) {   return BadRequest("Permission introuvable");  }
-            var Permission = await _PermissionManager.Recherche(id);
-            if (Permission == null)  return NotFound("Permission est introuvable'");
             var isdeleted = await _PermissionManager.Supprimer(id);
             if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de Permission.");
             return Ok(isdeleted);

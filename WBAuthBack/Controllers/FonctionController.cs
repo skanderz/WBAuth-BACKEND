@@ -15,21 +15,21 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Fonction/List
         [HttpGet]
-        [Route("List")]
-        public async Task<IActionResult> ChargerAll()
+        [Route("List/{IdApplication}")]
+        public async Task<IActionResult> ChargerAll(int IdApplication)
         {
-            var oFonction = await _FonctionManager.ChargerAll();
-            if (oFonction == null)  return NoContent();
-            return Ok(oFonction);
+            var ListFonction = await _FonctionManager.ChargerAll(IdApplication);
+            if (ListFonction == null)  return NoContent();
+            return Ok(ListFonction);
         }
 
 
         //GET : api/Fonction/idFonction
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> ChargerFonction(int id)
+        [Route("{Id}/{IdApplication}")]
+        public async Task<IActionResult> ChargerFonction(int id, int IdApplication)
         {
-            var oFonction = await _FonctionManager.Recherche(id);
+            var oFonction = await _FonctionManager.Recherche(id ,IdApplication);
             if (oFonction == null)  return NoContent();
             return Ok(oFonction);
         }
@@ -37,26 +37,26 @@ namespace WBAuthBack.Controllers
 
         //POST : api/Fonction/ajouter
         [HttpPost]
-        [Route("ajouter")]
-        public async Task<IActionResult> Ajouter([FromBody] Fonction oFonction)
+        [Route("ajouter/{IdApplication}")]
+        public async Task<IActionResult> Ajouter([FromBody] Fonction oFonction ,int IdApplication)
         {
             if (!ModelState.IsValid)  {  return BadRequest(ModelState);  }
-            var id = await _FonctionManager.Ajouter(oFonction);
-            if (id <= 0)   return BadRequest($"Une erreur est survenue lors de la création de l'Fonction {oFonction.Nom}.");
+            var id = await _FonctionManager.Ajouter(oFonction ,IdApplication);
+            if (id <= 0)   return BadRequest($"Une erreur est survenue lors de la création de la fonction : {oFonction.Nom}.");
             return Ok(id);
         }
 
 
         //PUT : api/Fonction/modifier
         [HttpPut]
-        [Route("modifier")]
-        public async Task<IActionResult> Modifier([FromBody] Fonction oFonction)
+        [Route("modifier/{IdApplication}")]
+        public async Task<IActionResult> Modifier([FromBody] Fonction oFonction, int IdApplication)
         {
             if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            var ticketType = await _FonctionManager.Recherche(oFonction.Id);
-            if (ticketType == null)  return NotFound("Cet Fonction est introuvable'");
-            var id = await _FonctionManager.Modifier(oFonction);
-            if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'Fonction {oFonction.Nom}.");     
+            var fonction = await _FonctionManager.Recherche(oFonction.Id ,IdApplication);
+            if (fonction == null)  return NotFound("Cet Fonction est introuvable'");
+            var id = await _FonctionManager.Modifier(oFonction ,IdApplication);
+            if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de la Fonction : {oFonction.Nom}.");     
             return Ok(id);
         }
 
@@ -64,13 +64,13 @@ namespace WBAuthBack.Controllers
         //DELETE : api/Fonction/supprimer
         [HttpDelete]
         [Route("supprimer")]
-        public async Task<IActionResult> Supprimer(int id)
+        public async Task<IActionResult> Supprimer(int id, int IdApplication)
         {
             if (id <= 0) {   return BadRequest("Fonction introuvable");  }
-            var Fonction = await _FonctionManager.Recherche(id);
+            var Fonction = await _FonctionManager.Recherche(id, IdApplication);
             if (Fonction == null)  return NotFound("Fonction est introuvable'");
-            var isdeleted = await _FonctionManager.Supprimer(id);
-            if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de Fonction.");
+            var isdeleted = await _FonctionManager.Supprimer(id, IdApplication);
+            if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de la Fonction: {Fonction.Nom}.");
             return Ok(isdeleted);
         }
 

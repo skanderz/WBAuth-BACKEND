@@ -39,7 +39,7 @@ namespace WBAuth.BLL.Manager
 
 
 
-        public async Task<bool> Clear(int Id) { return await _IJournalisationRepository.Clear(Id); }
+        public async Task<bool> Clear(int IdUtilisateur) { return await _IJournalisationRepository.Clear(IdUtilisateur); }
 
 
         public async Task<int> EnregistrementJournalisation(int IdUtilisateur)

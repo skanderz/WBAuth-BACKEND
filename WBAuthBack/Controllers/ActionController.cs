@@ -2,6 +2,8 @@
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using Microsoft.AspNetCore.Mvc;
+using Action = WBAuth.BO.Action;
+
 
 namespace WBAuthBack.Controllers
 {
@@ -15,19 +17,19 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Action/List
         [HttpGet]
-        [Route("List")]
-        public async Task<IActionResult> ChargerAll()
+        [Route("List/{idJournalisation}")]
+        public async Task<IActionResult> ChargerListe(int IdJournalisation)
         {
-            var oAction = await _ActionManager.ChargerAll();
-            if (oAction == null)  return NoContent();
-            return Ok(oAction);
+            var Actions = await _ActionManager.ChargerListe(IdJournalisation);
+            if (Actions == null)  return NoContent();
+            return Ok(Actions);
         }
 
 
         //GET : api/Action/idAction
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> ChargerAction(int id)
+        public async Task<IActionResult> Recherche(int id)
         {
             var oAction = await _ActionManager.Recherche(id);
             if (oAction == null)  return NoContent();
@@ -35,41 +37,29 @@ namespace WBAuthBack.Controllers
         }
 
 
-        //POST : api/Action/ajouter
+
+        //POST : api/Action/EnregistrementActions
         [HttpPost]
-        [Route("ajouter")]
-        public async Task<IActionResult> Ajouter([FromBody] Action oAction)
+        [Route("EnregistrementActions")]
+        public async Task<IActionResult> EnregistrementActions([FromBody] Action oAction)
         {
-            if (!ModelState.IsValid)  {  return BadRequest(ModelState);  }
-            var id = await _ActionManager.Ajouter(oAction);
-            if (id <= 0)   return BadRequest($"Une erreur est survenue lors de la création de l'Action {oAction.Nom}.");
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            var id = await _ActionManager.EnregistrementActions(oAction.IdJournalisation);
+            if (id <= 0) return BadRequest($"Une erreur est survenue lors de la création de l'action a la date : {oAction.Date}.");
             return Ok(id);
         }
 
 
-        //PUT : api/Action/modifier
-        [HttpPut]
-        [Route("modifier")]
-        public async Task<IActionResult> Modifier([FromBody] Action oAction)
-        {
-            if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            var ticketType = await _ActionManager.Recherche(oAction.Id);
-            if (ticketType == null)  return NotFound("Cet Action est introuvable'");
-            var id = await _ActionManager.Modifier(oAction);
-            if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'Action {oAction.Nom}.");     
-            return Ok(id);
-        }
 
-
-        //DELETE : api/Action/supprimer
+        //DELETE : api/Action/clear
         [HttpDelete]
-        [Route("supprimer")]
-        public async Task<IActionResult> Supprimer(int id)
+        [Route("clear")]
+        public async Task<IActionResult> Clear(int IdJournalisation)
         {
-            if (id <= 0) {   return BadRequest("Action introuvable");  }
-            var Action = await _ActionManager.Recherche(id);
-            if (Action == null)  return NotFound("Action est introuvable'");
-            var isdeleted = await _ActionManager.Supprimer(id);
+            if (IdJournalisation <= 0) {   return BadRequest("Action introuvable");  }
+            var Actions = await _ActionManager.ChargerListe(IdJournalisation);
+            if (Actions == null)  return NotFound("Liste d'actions introuvable'");
+            var isdeleted = await _ActionManager.Clear(IdJournalisation);
             if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de Action.");
             return Ok(isdeleted);
         }
