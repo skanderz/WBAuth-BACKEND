@@ -2,6 +2,7 @@
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using Microsoft.AspNetCore.Mvc;
+using WBAuth.BLL.Manager;
 
 namespace WBAuthBack.Controllers
 {
@@ -15,64 +16,59 @@ namespace WBAuthBack.Controllers
 
         //GET : api/UtilisateurApplication/List
         [HttpGet]
-        [Route("List")]
-        public async Task<IActionResult> ChargerAll()
+        [Route("ListByApplication/{IdApplication}")]
+        public async Task<IActionResult> ChargerAllByApplication(int IdApplication)
         {
-            var oUtilisateurApplication = await _UtilisateurApplicationManager.ChargerAll();
-            if (oUtilisateurApplication == null)  return NoContent();
-            return Ok(oUtilisateurApplication);
+            var userlist = await _UtilisateurApplicationManager.ChargerAllByApplication(IdApplication);
+            if (userlist == null)  return NoContent();
+            return Ok(userlist);
         }
 
 
-        //GET : api/UtilisateurApplication/idUtilisateurApplication
+        //GET : api/UtilisateurApplication/List
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> ChargerUtilisateurApplication(int id)
+        [Route("ListByApplication/{IdUtilisateur}")]
+        public async Task<IActionResult> ChargerAllByUtilisateur(int IdUtilisateur)
         {
-            var oUtilisateurApplication = await _UtilisateurApplicationManager.Recherche(id);
-            if (oUtilisateurApplication == null)  return NoContent();
+            var userlist = await _UtilisateurApplicationManager.ChargerAllByUtilisateur(IdUtilisateur);
+            if (userlist == null) return NoContent();
+            return Ok(userlist);
+        }
+
+
+
+        //GET : api/UtilisateurApplication/IdApplication/IdUtilisateur
+        [HttpGet]
+        [Route("{IdApplication}/{IdUtilisateur}")]
+        public async Task<IActionResult> Recherche(int IdUtilisateur, int IdApplication)
+        {
+            var oUtilisateurApplication = await _UtilisateurApplicationManager.Recherche(IdUtilisateur , IdApplication);
+            if (oUtilisateurApplication == null) return NoContent();
             return Ok(oUtilisateurApplication);
         }
 
-
-        //POST : api/UtilisateurApplication/ajouter
-        [HttpPost]
-        [Route("ajouter")]
-        public async Task<IActionResult> Ajouter([FromBody] UtilisateurApplication oUtilisateurApplication)
-        {
-            if (!ModelState.IsValid)  {  return BadRequest(ModelState);  }
-            var id = await _UtilisateurApplicationManager.Ajouter(oUtilisateurApplication);
-            if (id <= 0)   return BadRequest($"Une erreur est survenue lors de la création de l'UtilisateurApplication {oUtilisateurApplication.Nom}.");
-            return Ok(id);
-        }
 
 
         //PUT : api/UtilisateurApplication/modifier
         [HttpPut]
-        [Route("modifier")]
-        public async Task<IActionResult> Modifier([FromBody] UtilisateurApplication oUtilisateurApplication)
+        [Route("modifierAccesRole")]
+        public async Task<IActionResult> ModifierAccesRole(int IdUtilisateur, int IdApplication, bool Acces, string NomRole)
         {
             if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            var ticketType = await _UtilisateurApplicationManager.Recherche(oUtilisateurApplication.Id);
-            if (ticketType == null)  return NotFound("Cet UtilisateurApplication est introuvable'");
-            var id = await _UtilisateurApplicationManager.Modifier(oUtilisateurApplication);
-            if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'UtilisateurApplication {oUtilisateurApplication.Nom}.");     
+            var oUtilisateurApplication = await _UtilisateurApplicationManager.Recherche(IdUtilisateur, IdApplication);
+            if (oUtilisateurApplication == null)  return NotFound("Cet UtilisateurApplication est introuvable'");
+            var id = await _UtilisateurApplicationManager.ModifierAccesRole(IdUtilisateur, IdApplication, Acces, NomRole);
+            if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'UtilisateurApplication {oUtilisateurApplication.Utilisateur.NomUtilisateur}.");     
             return Ok(id);
         }
 
 
-        //DELETE : api/UtilisateurApplication/supprimer
-        [HttpDelete]
-        [Route("supprimer")]
-        public async Task<IActionResult> Supprimer(int id)
-        {
-            if (id <= 0) {   return BadRequest("UtilisateurApplication introuvable");  }
-            var UtilisateurApplication = await _UtilisateurApplicationManager.Recherche(id);
-            if (UtilisateurApplication == null)  return NotFound("UtilisateurApplication est introuvable'");
-            var isdeleted = await _UtilisateurApplicationManager.Supprimer(id);
-            if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de UtilisateurApplication.");
-            return Ok(isdeleted);
-        }
+
+
+
+
+
+
 
 
 

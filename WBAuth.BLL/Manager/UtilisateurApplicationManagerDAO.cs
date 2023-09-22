@@ -17,13 +17,14 @@ namespace WBAuth.BLL.Manager
             _mapper = mapper;
         }
 
-
-        public async Task<IEnumerable<UtilisateurApplication>> ChargerAll()
+        public Task<IEnumerable<UtilisateurApplication>> ChargerAll()
         {
-            var UtilisateurApplications = await _IUtilisateurApplicationRepository.ChargerAll();
-            var model = _mapper.Map<List<UtilisateurApplication>>(UtilisateurApplications);
-            return model;
+            throw new NotImplementedException();
         }
+
+
+
+
     }
 }
 

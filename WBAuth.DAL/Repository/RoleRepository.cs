@@ -22,9 +22,13 @@ namespace WBAuth.DAL.Repository
         }
 
 
-        public async Task<Role> Recherche(int Id)
+        public async Task<Role> Recherche(int Id, int IdApplication)
         {
-            return await _dataContext.Set<Role>().FirstOrDefaultAsync(item => item.Id == Id);
+            var application = await _dataContext.Application.FindAsync(IdApplication);
+            var role = await _dataContext.Set<Role>().Where(f => f.IdApplication == IdApplication).FirstOrDefaultAsync(f => f.Id == Id);
+            if (application == null) throw new InvalidOperationException("L'application spécifiée n'a pas été trouvée.");
+            if (role == null) throw new InvalidOperationException("La role spécifiée n'a pas été trouvée.");
+            return role;
         }
 
 

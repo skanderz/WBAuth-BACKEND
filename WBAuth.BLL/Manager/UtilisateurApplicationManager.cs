@@ -35,9 +35,9 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<int> ModifierAccesRole(int IdUtilisateur, bool Acces, string NomRole)
+        public async Task<int> ModifierAccesRole(int IdUtilisateur, int IdApplication, bool Acces, string NomRole)
         {
-            var id = await _IUtilisateurApplicationRepository.ModifierAccesRole(IdUtilisateur, Acces, NomRole);
+            var id = await _IUtilisateurApplicationRepository.ModifierAccesRole(IdUtilisateur, IdApplication, Acces, NomRole);
             return id;
         }
 

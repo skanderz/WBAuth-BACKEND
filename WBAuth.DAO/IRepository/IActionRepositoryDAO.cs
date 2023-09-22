@@ -5,7 +5,7 @@ namespace WBAuth.DAO.IRepository
 {
     public interface IActionRepositoryDAO
     {
-        Task<IEnumerable<Action>> ChargerListe(int IdJournalisation);
+        Task<IEnumerable<Action>> ChargerAll(int IdJournalisation);
 
     }
 }

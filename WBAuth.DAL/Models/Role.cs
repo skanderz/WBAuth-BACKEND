@@ -27,7 +27,7 @@ namespace WBAuth.DAL.Models
 
 
         public ICollection<Permission>? Permissions { get; set; }
-        public ICollection<UtilisateurApplication>? UtilisateurApplications { get; set; }
+        public UtilisateurApplication? UtilisateurApplication { get; set; }
 
 
         [ForeignKey("Application")]

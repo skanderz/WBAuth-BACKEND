@@ -38,9 +38,9 @@ namespace WBAuth.DAL.Repository
         }
 
 
-        public async Task<int> ModifierAccesRole(int IdUtilisateur, bool Acces, string NomRole)
+        public async Task<int> ModifierAccesRole(int IdUtilisateur, int IdApplication, bool Acces, string NomRole)
         {
-            var entity = await _dataContext.Set<UtilisateurApplication>().FirstOrDefaultAsync(ua => ua.IdUtilisateur == IdUtilisateur);
+            var entity = await _dataContext.Set<UtilisateurApplication>().Where(ua => ua.IdApplication == IdApplication).FirstOrDefaultAsync(ua => ua.IdUtilisateur == IdUtilisateur);
             if (entity != null) throw new ArgumentNullException(nameof(entity));
             entity.Acces = Acces;
             entity.Role.Nom = NomRole;

@@ -14,7 +14,7 @@ namespace WBAuth.DAL.Models
         [ForeignKey("Role, DeleteBehavior = DeleteBehavior.NoAction")]
         public int IdRole { get; set; }
         [Required]
-        [InverseProperty("Permission")]
+        [InverseProperty("Permissions")]
         public Role? Role { get; set; }
 
 

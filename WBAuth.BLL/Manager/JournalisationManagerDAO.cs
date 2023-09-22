@@ -17,12 +17,9 @@ namespace WBAuth.BLL.Manager
             _mapper = mapper;
         }
 
-
-        public async Task<IEnumerable<Journalisation>> ChargerAll()
+        public Task<IEnumerable<Journalisation>> ChargerAll()
         {
-            var Journalisations = await _IJournalisationRepository.ChargerAll();
-            var model = _mapper.Map<List<Journalisation>>(Journalisations);
-            return model;
+            throw new NotImplementedException();
         }
     }
 }

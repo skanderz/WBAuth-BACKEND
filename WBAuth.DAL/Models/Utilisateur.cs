@@ -42,7 +42,7 @@ namespace WBAuth.DAL.Models
         [Column(TypeName = "datetime")]
         public DateTime? DateInscription { get; set; }
         public bool? Status { get; set; } = true;
-        public ICollection<UtilisateurApplication>? UtilisateurApplications { get; set; }
+        public UtilisateurApplication? UtilisateurApplication { get; set; }
         public ICollection<Journalisation>? Journalisation { get; set; }
 
     }

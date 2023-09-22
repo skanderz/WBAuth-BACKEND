@@ -7,6 +7,7 @@ namespace WBAuth.DAO.Repository
 
     public class ActionRepositoryDAO : IActionRepositoryDAO
     {
+
         #region Déclaration
 
 
@@ -21,7 +22,7 @@ namespace WBAuth.DAO.Repository
 
         #endregion Constructeur
 
-        public async Task<IEnumerable<Action>> ChargerListe(int IdJournalisation)
+        public async Task<IEnumerable<Action>> ChargerAll(int IdJournalisation)
         {
             //return await _dataContext.Set<Action>().ToListAsync();
 

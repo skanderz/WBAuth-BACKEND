@@ -5,7 +5,7 @@ namespace WBAuth.BO
     public class Utilisateur
     {
 
-        public int IdUtilisateur { get; set; }
+        public int Id { get; set; }
         public string? NomUtilisateur { get; set; }
         public string? Email { get; set; }
 

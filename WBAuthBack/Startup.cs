@@ -24,11 +24,10 @@ namespace WBAuthBack
         // This method gets called by the runtime. Use this method to add services to the container.
 
 
-        [Obsolete]
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(Configuration["Data:ConnectionStrings:sqlConnectionString"]));
-            services.AddMvc(options => options.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // For Identity 
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
@@ -43,8 +42,7 @@ namespace WBAuthBack
             });
 
             // Add services to the container.
-            services.AddControllers();
-            services.AddEndpointsApiExplorer();
+            services.AddCors(options => { options.AddPolicy("AllowAngularFrontend", builder =>  {  builder.WithOrigins("https://localhost:44424/").AllowAnyHeader().AllowAnyMethod(); }); });
             services.AddSwaggerGen();
 
 
@@ -62,19 +60,17 @@ namespace WBAuthBack
                 app.UseSwaggerUI();
             }
             else { app.UseHsts(); }
-
+            app.UseCors("AllowAngularFrontend");
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                // Configurez vos endpoints ici
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute( name: "default",  pattern: "{controller}/{action}/{id?}" );
+                endpoints.MapFallbackToFile("index.html");
             });
 
-          //app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+
             app.UseHttpsRedirection();
-            app.UseMvc();
+
 
         }
     }

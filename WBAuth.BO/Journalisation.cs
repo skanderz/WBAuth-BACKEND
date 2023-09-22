@@ -3,7 +3,7 @@
     public class Journalisation
     {
 
-        public int IdJournalisation { get; set; }
+        public int Id { get; set; }
         public string? AdresseIP { get; set; }
         public DateTime DateConnexion { get; set; }
         public int IdUtilisateur { get; set; }

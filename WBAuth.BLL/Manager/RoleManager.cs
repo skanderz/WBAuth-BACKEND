@@ -36,9 +36,9 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<Role> Recherche(int Id)
+        public async Task<Role> Recherche(int Id ,int IdApplication)
         {
-            var oRole = await _IRoleRepository.Recherche(Id);
+            var oRole = await _IRoleRepository.Recherche(Id, IdApplication);
             var model = _mapper.Map<Role>(oRole);
             return model;
         }

@@ -17,13 +17,14 @@ namespace WBAuth.BLL.Manager
             _mapper = mapper;
         }
 
-
-        public async Task<IEnumerable<Permission>> ChargerAll()
+        public Task<IEnumerable<Permission>> ChargerAll()
         {
-            var Permissions = await _IPermissionRepository.ChargerAll();
-            var model = _mapper.Map<List<Permission>>(Permissions);
-            return model;
+            throw new NotImplementedException();
         }
+
+
+
+
     }
 }
 

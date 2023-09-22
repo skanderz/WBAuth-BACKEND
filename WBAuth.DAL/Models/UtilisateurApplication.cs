@@ -30,7 +30,7 @@ namespace WBAuth.DAL.Models
         [ForeignKey("Application, DeleteBehavior = DeleteBehavior.NoAction")]
         public int IdApplication { get; set; }
         [Required]
-        [InverseProperty("UtilisateurApplication")]
+        [InverseProperty("UtilisateurApplications")]
         public Application? Application { get; set; }
 
 

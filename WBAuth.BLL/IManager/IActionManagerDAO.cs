@@ -5,7 +5,7 @@ namespace WBAuth.BLL.IManager
 {
     public interface IActionManagerDAO
     {
-        Task<IEnumerable<Action>> ChargerAll();
+        Task<IEnumerable<Action>> ChargerAll(int IdJournalisation);
 
     }
 }

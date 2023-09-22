@@ -2,7 +2,7 @@
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using WBAuth.DAO.IRepository;
-
+using Action = WBAuth.BO.Action;
 
 namespace WBAuth.BLL.Manager
 {
@@ -18,9 +18,9 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<IEnumerable<Action>> ChargerAll()
+        public async Task<IEnumerable<Action>> ChargerAll(int IdJournalisation)
         {
-            var Actions = await _IActionRepository.ChargerAll();
+            var Actions = await _IActionRepository.ChargerAll(IdJournalisation);
             var model = _mapper.Map<List<Action>>(Actions);
             return model;
         }

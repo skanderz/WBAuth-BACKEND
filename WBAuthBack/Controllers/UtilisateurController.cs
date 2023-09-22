@@ -27,7 +27,7 @@ namespace WBAuthBack.Controllers
         //GET : api/Utilisateur/idUtilisateur
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> ChargerUtilisateur(int id)
+        public async Task<IActionResult> Recherche(int id)
         {
             var oUtilisateur = await _UtilisateurManager.Recherche(id);
             if (oUtilisateur == null)  return NoContent();
@@ -42,7 +42,7 @@ namespace WBAuthBack.Controllers
         {
             if (!ModelState.IsValid)  {  return BadRequest(ModelState);  }
             var id = await _UtilisateurManager.Ajouter(oUtilisateur);
-            if (id <= 0)   return BadRequest($"Une erreur est survenue lors de la création de l'Utilisateur {oUtilisateur.Nom}.");
+            if (id <= 0)   return BadRequest($"Une erreur est survenue lors de la création de l'Utilisateur {oUtilisateur.NomUtilisateur}.");
             return Ok(id);
         }
 
@@ -56,7 +56,7 @@ namespace WBAuthBack.Controllers
             var ticketType = await _UtilisateurManager.Recherche(oUtilisateur.Id);
             if (ticketType == null)  return NotFound("Cet Utilisateur est introuvable'");
             var id = await _UtilisateurManager.Modifier(oUtilisateur);
-            if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'Utilisateur {oUtilisateur.Nom}.");     
+            if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'Utilisateur {oUtilisateur.NomUtilisateur}.");     
             return Ok(id);
         }
 

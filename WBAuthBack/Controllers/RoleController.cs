@@ -15,10 +15,10 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Role/List
         [HttpGet]
-        [Route("List")]
-        public async Task<IActionResult> ChargerAll()
+        [Route("List/{IdApplication}")]
+        public async Task<IActionResult> ChargerAll(int IdApplication)
         {
-            var oRole = await _RoleManager.ChargerAll();
+            var oRole = await _RoleManager.ChargerAll(IdApplication);
             if (oRole == null)  return NoContent();
             return Ok(oRole);
         }
@@ -26,10 +26,10 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Role/idRole
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> ChargerRole(int id)
+        [Route("{id}/{IdApplication}")]
+        public async Task<IActionResult> ChargerRole(int Id ,int IdApplication)
         {
-            var oRole = await _RoleManager.Recherche(id);
+            var oRole = await _RoleManager.Recherche(Id, IdApplication);
             if (oRole == null)  return NoContent();
             return Ok(oRole);
         }
@@ -53,7 +53,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Modifier([FromBody] Role oRole)
         {
             if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            var ticketType = await _RoleManager.Recherche(oRole.Id);
+            var ticketType = await _RoleManager.Recherche(oRole.Id, oRole.IdApplication);
             if (ticketType == null)  return NotFound("Cet Role est introuvable'");
             var id = await _RoleManager.Modifier(oRole);
             if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'Role {oRole.Nom}.");     
@@ -64,10 +64,10 @@ namespace WBAuthBack.Controllers
         //DELETE : api/Role/supprimer
         [HttpDelete]
         [Route("supprimer")]
-        public async Task<IActionResult> Supprimer(int id)
+        public async Task<IActionResult> Supprimer(int id ,int IdApplication)
         {
             if (id <= 0) {   return BadRequest("Role introuvable");  }
-            var Role = await _RoleManager.Recherche(id);
+            var Role = await _RoleManager.Recherche(id ,IdApplication);
             if (Role == null)  return NotFound("Role est introuvable'");
             var isdeleted = await _RoleManager.Supprimer(id);
             if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de Role.");

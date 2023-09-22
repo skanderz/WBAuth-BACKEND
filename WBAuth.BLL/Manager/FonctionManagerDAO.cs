@@ -18,12 +18,21 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<IEnumerable<Fonction>> ChargerAll()
+        public async Task<IEnumerable<Fonction>> ChargerAll(int IdApplication)
         {
-            var Fonctions = await _IFonctionRepository.ChargerAll();
+            var Fonctions = await _IFonctionRepository.ChargerAll(IdApplication);
             var model = _mapper.Map<List<Fonction>>(Fonctions);
             return model;
         }
+
+        public Task<IEnumerable<Fonction>> ChargerAll()
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+
     }
 }
 

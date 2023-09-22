@@ -10,6 +10,7 @@ namespace WBAuth.BO
         public string? Nom { get; set; }
         public string? Description { get; set; }
         public string? Url { get; set; }
+        [JsonIgnore]
         public byte[]? Logo { get; set; }
 
         [JsonIgnore]
