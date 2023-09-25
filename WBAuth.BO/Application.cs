@@ -1,5 +1,6 @@
-﻿using System.Text.Json.Serialization;
-
+﻿using Microsoft.AspNetCore.Http;
+using System.Text.Json.Serialization;
+using WBAuth.BO.Validators;
 
 namespace WBAuth.BO
 {
@@ -11,6 +12,7 @@ namespace WBAuth.BO
         public string? Description { get; set; }
         public string? Url { get; set; }
         [JsonIgnore]
+        [AllowedImageExtensions(".png", ".jpg", ".jpeg", ".gif", ".bmp")]
         public byte[]? Logo { get; set; }
 
         [JsonIgnore]

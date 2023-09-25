@@ -42,9 +42,11 @@ namespace WBAuthBack
             });
 
             // Add services to the container.
-            services.AddCors(options => { options.AddPolicy("AllowAngularFrontend", builder =>  {  builder.WithOrigins("https://localhost:44424/").AllowAnyHeader().AllowAnyMethod(); }); });
+            services.AddCors(options => { options.AddPolicy("AllowAngularFrontend", 
+                             builder => { builder.WithOrigins("https://localhost:44424/")
+                                         .AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();   }); });
+            services.AddControllers();
             services.AddSwaggerGen();
-
 
             ServicesConfig.CreateServices(services);
         }
@@ -54,22 +56,27 @@ namespace WBAuthBack
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
-            if (env.IsDevelopment()){  
-                app.UseDeveloperExceptionPage(); 
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-            else { app.UseHsts(); }
-            app.UseCors("AllowAngularFrontend");
+            app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors("AllowAngularFrontend");
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers().RequireCors("AllowAngularFrontend");
                 endpoints.MapControllerRoute( name: "default",  pattern: "{controller}/{action}/{id?}" );
                 endpoints.MapFallbackToFile("index.html");
             });
 
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+            else { app.UseHsts(); }
 
-            app.UseHttpsRedirection();
+
 
 
         }

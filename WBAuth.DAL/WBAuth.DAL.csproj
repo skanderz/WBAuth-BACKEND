@@ -41,4 +41,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WBAuth.BO\WBAuth.BO.csproj" />
+  </ItemGroup>
+
 </Project>

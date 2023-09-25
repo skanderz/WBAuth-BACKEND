@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-
+using WBAuth.BO.Validators;
 
 namespace WBAuth.DAL.Models
 {
@@ -31,6 +32,7 @@ namespace WBAuth.DAL.Models
 
         [JsonIgnore]
         [Column("Logo", TypeName = "varbinary(max)")]
+        [AllowedImageExtensions(".png", ".jpg", ".jpeg", ".gif", ".bmp")]
         public byte[]? Logo { get; set; }
 
         [JsonIgnore]
