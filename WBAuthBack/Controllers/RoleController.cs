@@ -29,7 +29,7 @@ namespace WBAuthBack.Controllers
         [Route("{id}/{IdApplication}")]
         public async Task<IActionResult> ChargerRole(int Id ,int IdApplication)
         {
-            var oRole = await _RoleManager.Recherche(Id, IdApplication);
+            var oRole = await _RoleManager.Recherche(rech, IdApplication);
             if (oRole == null)  return NoContent();
             return Ok(oRole);
         }
@@ -67,7 +67,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Supprimer(int id ,int IdApplication)
         {
             if (id <= 0) {   return BadRequest("Role introuvable");  }
-            var Role = await _RoleManager.Recherche(id ,IdApplication);
+            var Role = await _RoleManager.Recherche(rech ,IdApplication);
             if (Role == null)  return NotFound("Role est introuvable'");
             var isdeleted = await _RoleManager.Supprimer(id);
             if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de Role.");

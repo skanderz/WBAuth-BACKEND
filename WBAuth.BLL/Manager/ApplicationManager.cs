@@ -36,13 +36,19 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<Application> Recherche(int Id)
+        public async Task<IEnumerable<Application>> Recherche(string str)
         {
-            var oApplication = await _IApplicationRepository.Recherche(Id);
-            var model = _mapper.Map<Application>(oApplication);
+            var Applications = await _IApplicationRepository.Recherche(str);
+            var model = _mapper.Map<List<Application>>(Applications);
             return model;
         }
 
+        public async Task<Application> RechercheById(int id)
+        {
+            var oApp = await _IApplicationRepository.RechercheById(id);
+            var model = _mapper.Map<Application>(oApp);
+            return model;
+        }
 
         public async Task<int> Modifier(Application oApplication)
         {

@@ -31,7 +31,7 @@ namespace WBAuth.BLL.Manager
 
         public async Task<Journalisation> Recherche(int Id)
         {
-            var oJournalisation = await _IJournalisationRepository.Recherche(Id);
+            var oJournalisation = await _IJournalisationRepository.Recherche(rech);
             if (oJournalisation == null) throw new ArgumentNullException(nameof(oJournalisation));
             var model = _mapper.Map<Journalisation>(oJournalisation);
             return model;

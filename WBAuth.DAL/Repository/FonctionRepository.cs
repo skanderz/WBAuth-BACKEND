@@ -20,7 +20,16 @@ namespace WBAuth.DAL.Repository
         }
 
 
-        public async Task<Fonction> Recherche(int Id, int IdApplication)
+        public async Task<IEnumerable<Fonction>> Recherche(string rech, int IdApplication)
+        {
+            var application = await _dataContext.Application.FindAsync(IdApplication);
+            var fonctions = await _dataContext.Set<Fonction>().Where(f => f.IdApplication == IdApplication && f.Nom == rech).ToListAsync();
+            if (application == null) throw new InvalidOperationException("L'application spécifiée n'a pas été trouvée.");
+            if (fonctions == null) throw new InvalidOperationException("Liste de fonctions introuvables.");
+            return fonctions;
+        }
+
+        public async Task<Fonction> RechercheById(int Id, int IdApplication)
         {
             var application = await _dataContext.Application.FindAsync(IdApplication);
             var fonction = await _dataContext.Set<Fonction>().Where(f => f.IdApplication == IdApplication).FirstOrDefaultAsync(f => f.Id == Id);
@@ -28,7 +37,6 @@ namespace WBAuth.DAL.Repository
             if (fonction == null) throw new InvalidOperationException("La fonction spécifiée n'a pas été trouvée.");
             return fonction;
         }
-
 
         public async Task<int> Ajouter(Fonction oFonction, int IdApplication)
         {
@@ -68,9 +76,6 @@ namespace WBAuth.DAL.Repository
             await _dataContext.SaveChangesAsync();
             return true;
         }
-
-
-
 
 
 

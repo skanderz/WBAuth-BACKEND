@@ -26,10 +26,21 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Application/idApplication
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> ChargerApplication(int id)
+        [Route("Get/{id}")]
+        public async Task<IActionResult> GetAplicationById(int id)
         {
-            var oApplication = await _ApplicationManager.Recherche(id);
+            var oApplication = await _ApplicationManager.RechercheById(id);
+            if (oApplication == null) return NoContent();
+            return Ok(oApplication);
+        }
+
+
+        //GET : api/Application/idApplication
+        [HttpGet]
+        [Route("{rech}")]
+        public async Task<IActionResult> GetApplicationByName(string rech)
+        {
+            var oApplication = await _ApplicationManager.Recherche(rech);
             if (oApplication == null)  return NoContent();
             return Ok(oApplication);
         }
@@ -53,7 +64,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Modifier([FromBody] Application oApplication)
         {
             if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            var ticketType = await _ApplicationManager.Recherche(oApplication.Id);
+            var ticketType = await _ApplicationManager.RechercheById(oApplication.Id);
             if (ticketType == null)  return NotFound("Cet application est introuvable'");
             var id = await _ApplicationManager.Modifier(oApplication);
             if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'application {oApplication.Nom}.");     
@@ -67,12 +78,15 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Supprimer(int id)
         {
             if (id <= 0) {   return BadRequest("Application introuvable");  }
-            var Application = await _ApplicationManager.Recherche(id);
+            var Application = await _ApplicationManager.RechercheById(id);
             if (Application == null)  return NotFound("Application est introuvable'");
             var isdeleted = await _ApplicationManager.Supprimer(id);
             if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de Application.");
             return Ok(isdeleted);
         }
+
+
+
 
 
 

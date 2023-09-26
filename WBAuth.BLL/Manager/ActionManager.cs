@@ -31,7 +31,7 @@ namespace WBAuth.BLL.Manager
 
         public async Task<Action> Recherche(int Id)
         {
-            var oAction = await _IActionRepository.Recherche(Id);
+            var oAction = await _IActionRepository.Recherche(rech);
             if (oAction == null) throw new ArgumentNullException(nameof(oAction));
             var model = _mapper.Map<Action>(oAction);
             return model;

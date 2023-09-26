@@ -29,7 +29,7 @@ namespace WBAuthBack.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Recherche(int id)
         {
-            var oUtilisateur = await _UtilisateurManager.Recherche(id);
+            var oUtilisateur = await _UtilisateurManager.Recherche(rech);
             if (oUtilisateur == null)  return NoContent();
             return Ok(oUtilisateur);
         }
@@ -67,7 +67,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Supprimer(int id)
         {
             if (id <= 0) {   return BadRequest("Utilisateur introuvable");  }
-            var Utilisateur = await _UtilisateurManager.Recherche(id);
+            var Utilisateur = await _UtilisateurManager.Recherche(rech);
             if (Utilisateur == null)  return NotFound("Utilisateur est introuvable'");
             var isdeleted = await _UtilisateurManager.Supprimer(id);
             if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de Utilisateur.");

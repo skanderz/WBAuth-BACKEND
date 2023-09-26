@@ -50,12 +50,18 @@ namespace WBAuth.DAL.Repository
         }
 
 
-        public async Task<Application> Recherche(int Id)
+        public async Task<IEnumerable<Application>> Recherche(string rech)
         {
-            return await _dataContext.Set<Application>().FirstOrDefaultAsync(item => item.Id == Id);
+            return await _dataContext.Set<Application>().Where(a => a.Nom == rech || a.Url == rech).ToListAsync();
         }
 
 
+        public async Task<Application> RechercheById(int Id)
+        {
+            var oApplication = await _dataContext.Set<Application>().FirstOrDefaultAsync(a => a.Id == Id);
+            if (oApplication == null) throw new ArgumentNullException(nameof(oApplication));
+            return oApplication;
+        }
 
 
 

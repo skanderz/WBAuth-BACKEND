@@ -31,7 +31,7 @@ namespace WBAuthBack.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Recherche(int id)
         {
-            var oAction = await _ActionManager.Recherche(id);
+            var oAction = await _ActionManager.Recherche(rech);
             if (oAction == null)  return NoContent();
             return Ok(oAction);
         }

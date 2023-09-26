@@ -30,7 +30,7 @@ namespace WBAuthBack.Controllers
         [Route("{Id}")]
         public async Task<IActionResult> Recherche(int Id)
         {
-            var oJournalisation = await _JournalisationManager.Recherche(Id);
+            var oJournalisation = await _JournalisationManager.Recherche(rech);
             if (oJournalisation == null)  return NoContent();
             return Ok(oJournalisation);
         }

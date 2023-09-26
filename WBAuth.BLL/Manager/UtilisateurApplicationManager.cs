@@ -44,7 +44,7 @@ namespace WBAuth.BLL.Manager
 
         public async Task<UtilisateurApplication> Recherche(int IdUtilisateur, int IdApplication)
         {
-            var oUtilisateurApplication = await _IUtilisateurApplicationRepository.Recherche(IdApplication, IdApplication);
+            var oUtilisateurApplication = await _IUtilisateurApplicationRepository.Recherche(rechApplication, IdApplication);
             var model = _mapper.Map<UtilisateurApplication>(oUtilisateurApplication);
             return model;
         }

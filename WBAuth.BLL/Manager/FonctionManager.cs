@@ -28,9 +28,16 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<Fonction> Recherche(int Id, int IdApplication)
+        public async Task<IEnumerable<Fonction>> Recherche(string rech, int IdApplication)
         {
-            var oFonction = await _IFonctionRepository.Recherche(Id, IdApplication);
+            var oFonction = await _IFonctionRepository.Recherche(rech, IdApplication);
+            var model = _mapper.Map<List<Fonction>>(oFonction);
+            return model;
+        }
+
+        public async Task<Fonction> RechercheById(int Id, int IdApplication)
+        {
+            var oFonction = await _IFonctionRepository.RechercheById(Id, IdApplication);
             var model = _mapper.Map<Fonction>(oFonction);
             return model;
         }
@@ -54,6 +61,7 @@ namespace WBAuth.BLL.Manager
 
 
         public async Task<bool> Supprimer(int Id, int IdApplication) { return await _IFonctionRepository.Supprimer(Id, IdApplication); }
+
 
 
 
