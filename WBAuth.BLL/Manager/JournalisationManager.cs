@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Collections.Generic;
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using WBAuth.DAL.IRepository;
@@ -29,14 +30,22 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<Journalisation> Recherche(int Id)
+        public async Task<Journalisation> RechercheById(int Id)
         {
-            var oJournalisation = await _IJournalisationRepository.Recherche(rech);
+            var oJournalisation = await _IJournalisationRepository.RechercheById(Id);
             if (oJournalisation == null) throw new ArgumentNullException(nameof(oJournalisation));
             var model = _mapper.Map<Journalisation>(oJournalisation);
             return model;
         }
 
+
+        public async Task<IEnumerable<Journalisation>> Recherche(string rech)
+        {
+            var Journalisations = await _IJournalisationRepository.Recherche(rech);
+            if (Journalisations == null) throw new ArgumentNullException(nameof(Journalisations));
+            var models = _mapper.Map<List<Journalisation>>(Journalisations);
+            return models;
+        }
 
 
         public async Task<bool> Clear(int IdUtilisateur) { return await _IJournalisationRepository.Clear(IdUtilisateur); }

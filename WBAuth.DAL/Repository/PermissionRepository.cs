@@ -27,7 +27,7 @@ namespace WBAuth.DAL.Repository
         }
 
 
-        public async Task<Permission> RechercheFonctionUnique(int Id, int IdApplication, int IdRole)
+        public async Task<Permission> RechercheFonctionUniqueById(int Id, int IdApplication, int IdRole)
         {
             var permission = await _dataContext.Set<Permission>().Where(p => p.IdRole == IdRole && p.Fonction.IdApplication == IdApplication && p.Fonction.Type == "unique")
                                                                  .FirstOrDefaultAsync(p => p.Id == Id);
@@ -36,12 +36,30 @@ namespace WBAuth.DAL.Repository
         }
 
 
-        public async Task<Permission> RechercheMultiFonction(int Id, int IdApplication, int IdRole)
+        public async Task<Permission> RechercheMultiFonctionById(int Id, int IdApplication, int IdRole)
         {
             var permission = await _dataContext.Set<Permission>().Where(p => p.IdRole == IdRole && p.Fonction.IdApplication == IdApplication && p.Fonction.Type == "multi")
                                                                  .FirstOrDefaultAsync(p => p.Id == Id);
             if (permission == null) throw new ArgumentNullException(nameof(permission));
             return permission;
+        }
+
+
+        public async Task<IEnumerable<Permission>> RechercheFonctionUnique(string rech, int IdApplication, int IdRole)
+        {
+            var permissions = await _dataContext.Set<Permission>()
+            .Where(p => p.IdRole == IdRole && p.Fonction.IdApplication == IdApplication && p.Fonction.Type == "unique" && p.Nom == rech).ToListAsync();
+            if (permissions == null) throw new ArgumentNullException(nameof(permissions));
+            return permissions;
+        }
+
+
+        public async Task<IEnumerable<Permission>> RechercheMultiFonction(string rech, int IdApplication, int IdRole)
+        {
+            var permissions = await _dataContext.Set<Permission>()
+            .Where(p => p.IdRole == IdRole && p.Fonction.IdApplication == IdApplication && p.Fonction.Type == "multi" && p.Nom == rech).ToListAsync();
+            if (permissions == null) throw new ArgumentNullException(nameof(permissions));
+            return permissions;
         }
 
 

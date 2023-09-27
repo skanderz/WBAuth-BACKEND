@@ -28,14 +28,24 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Action/idAction
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> Recherche(int id)
+        [Route("{rech}")]
+        public async Task<IActionResult> Recherche(string rech)
         {
             var oAction = await _ActionManager.Recherche(rech);
             if (oAction == null)  return NoContent();
             return Ok(oAction);
         }
 
+
+        //GET : api/Action/idAction
+        [HttpGet]
+        [Route("Get/{id}")]
+        public async Task<IActionResult> RechercheById(int id)
+        {
+            var oAction = await _ActionManager.RechercheById(id);
+            if (oAction == null) return NoContent();
+            return Ok(oAction);
+        }
 
 
         //POST : api/Action/EnregistrementActions

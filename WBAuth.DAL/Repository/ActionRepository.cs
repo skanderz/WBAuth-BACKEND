@@ -13,8 +13,6 @@ namespace WBAuth.DAL.Repository
         public ActionRepository(ApplicationDbContext dataContext) { _dataContext = dataContext; }
 
 
-
-
         public async Task<IEnumerable<Action>> ChargerListe(int IdJournalisation) { return await _dataContext.Set<Action>().Where(a => a.IdJournalisation == IdJournalisation).ToListAsync(); }
 
 
@@ -26,13 +24,21 @@ namespace WBAuth.DAL.Repository
         }
 
 
-
-        public async Task<Action> Recherche(int Id)
+        public async Task<IEnumerable<Action>> Recherche(string rech)
         {
-            var oAction = await _dataContext.Set<Action>().FirstOrDefaultAsync(item => item.Id == Id);
+            var Actions = await _dataContext.Set<Action>().Where(a => a.Description == rech).ToListAsync();
+            if (Actions == null) { Console.Error.WriteLine("Liste Introuvable."); }
+            return Actions;
+        }
+
+
+        public async Task<Action> RechercheById(int Id)
+        {
+            var oAction = await _dataContext.Set<Action>().FirstOrDefaultAsync(a => a.Id == Id);
             if (oAction == null) { Console.Error.WriteLine("Aucun élément trouvé avec l'ID spécifié."); }
             return oAction;
         }
+
 
         public async Task<bool> Clear(int IdJournalisation)
         {

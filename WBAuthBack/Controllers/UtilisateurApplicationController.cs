@@ -42,7 +42,7 @@ namespace WBAuthBack.Controllers
         [Route("{IdApplication}/{IdUtilisateur}")]
         public async Task<IActionResult> Recherche(int IdUtilisateur, int IdApplication)
         {
-            var oUtilisateurApplication = await _UtilisateurApplicationManager.Recherche(rechUtilisateur , IdApplication);
+            var oUtilisateurApplication = await _UtilisateurApplicationManager.Recherche(IdUtilisateur , IdApplication);
             if (oUtilisateurApplication == null) return NoContent();
             return Ok(oUtilisateurApplication);
         }
@@ -55,7 +55,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> ModifierAccesRole(int IdUtilisateur, int IdApplication, bool Acces, string NomRole)
         {
             if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            var oUtilisateurApplication = await _UtilisateurApplicationManager.Recherche(rechUtilisateur, IdApplication);
+            var oUtilisateurApplication = await _UtilisateurApplicationManager.Recherche(IdUtilisateur, IdApplication);
             if (oUtilisateurApplication == null)  return NotFound("Cet UtilisateurApplication est introuvable'");
             var id = await _UtilisateurApplicationManager.ModifierAccesRole(IdUtilisateur, IdApplication, Acces, NomRole);
             if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'UtilisateurApplication {oUtilisateurApplication.Utilisateur.NomUtilisateur}.");     

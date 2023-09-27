@@ -35,6 +35,7 @@ namespace WBAuth.BLL.Manager
             return model;
         }
 
+
         public async Task<Fonction> RechercheById(int Id, int IdApplication)
         {
             var oFonction = await _IFonctionRepository.RechercheById(Id, IdApplication);

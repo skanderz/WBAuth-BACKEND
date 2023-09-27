@@ -26,13 +26,26 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Utilisateur/idUtilisateur
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> Recherche(int id)
+        [Route("Get/{id}")]
+        public async Task<IActionResult> RechercheById(int id)
         {
-            var oUtilisateur = await _UtilisateurManager.Recherche(rech);
+            var oUtilisateur = await _UtilisateurManager.RechercheById(id);
             if (oUtilisateur == null)  return NoContent();
             return Ok(oUtilisateur);
         }
+
+
+        //GET : api/Utilisateur/idUtilisateur
+        [HttpGet]
+        [Route("{rech}")]
+        public async Task<IActionResult> Recherche(string rech)
+        {
+            var oUtilisateur = await _UtilisateurManager.Recherche(rech);
+            if (oUtilisateur == null) return NoContent();
+            return Ok(oUtilisateur);
+        }
+
+
 
 
         //POST : api/Utilisateur/ajouter
@@ -53,7 +66,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Modifier([FromBody] Utilisateur oUtilisateur)
         {
             if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            var ticketType = await _UtilisateurManager.Recherche(oUtilisateur.Id);
+            var ticketType = await _UtilisateurManager.RechercheById(oUtilisateur.Id);
             if (ticketType == null)  return NotFound("Cet Utilisateur est introuvable'");
             var id = await _UtilisateurManager.Modifier(oUtilisateur);
             if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'Utilisateur {oUtilisateur.NomUtilisateur}.");     
@@ -67,7 +80,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Supprimer(int id)
         {
             if (id <= 0) {   return BadRequest("Utilisateur introuvable");  }
-            var Utilisateur = await _UtilisateurManager.Recherche(rech);
+            var Utilisateur = await _UtilisateurManager.RechercheById(id);
             if (Utilisateur == null)  return NotFound("Utilisateur est introuvable'");
             var isdeleted = await _UtilisateurManager.Supprimer(id);
             if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de Utilisateur.");

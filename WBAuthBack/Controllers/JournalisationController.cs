@@ -27,14 +27,24 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Journalisation/idJournalisation
         [HttpGet]
-        [Route("{Id}")]
-        public async Task<IActionResult> Recherche(int Id)
+        [Route("Get/{Id}")]
+        public async Task<IActionResult> RechercheById(int Id)
         {
-            var oJournalisation = await _JournalisationManager.Recherche(rech);
+            var oJournalisation = await _JournalisationManager.RechercheById(Id);
             if (oJournalisation == null)  return NoContent();
             return Ok(oJournalisation);
         }
 
+
+        //GET : api/Journalisation/idJournalisation
+        [HttpGet]
+        [Route("{rech}")]
+        public async Task<IActionResult> Recherche(string rech)
+        {
+            var oJournalisation = await _JournalisationManager.Recherche(rech);
+            if (oJournalisation == null) return NoContent();
+            return Ok(oJournalisation);
+        }
 
 
         //POST : api/Journalisation/EnregistrementJournalisations

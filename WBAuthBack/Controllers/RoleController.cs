@@ -26,11 +26,22 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Role/idRole
         [HttpGet]
-        [Route("{id}/{IdApplication}")]
-        public async Task<IActionResult> ChargerRole(int Id ,int IdApplication)
+        [Route("{rech}/{IdApplication}")]
+        public async Task<IActionResult> Recherche(string rech ,int IdApplication)
         {
             var oRole = await _RoleManager.Recherche(rech, IdApplication);
             if (oRole == null)  return NoContent();
+            return Ok(oRole);
+        }
+
+
+        //GET : api/Role/idRole
+        [HttpGet]
+        [Route("Get/{id}/{IdApplication}")]
+        public async Task<IActionResult> ChargerRoleById(int Id, int IdApplication)
+        {
+            var oRole = await _RoleManager.RechercheById(Id, IdApplication);
+            if (oRole == null) return NoContent();
             return Ok(oRole);
         }
 
@@ -53,7 +64,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Modifier([FromBody] Role oRole)
         {
             if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            var ticketType = await _RoleManager.Recherche(oRole.Id, oRole.IdApplication);
+            var ticketType = await _RoleManager.RechercheById(oRole.Id, oRole.IdApplication);
             if (ticketType == null)  return NotFound("Cet Role est introuvable'");
             var id = await _RoleManager.Modifier(oRole);
             if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'Role {oRole.Nom}.");     
@@ -67,7 +78,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Supprimer(int id ,int IdApplication)
         {
             if (id <= 0) {   return BadRequest("Role introuvable");  }
-            var Role = await _RoleManager.Recherche(rech ,IdApplication);
+            var Role = await _RoleManager.RechercheById(id ,IdApplication);
             if (Role == null)  return NotFound("Role est introuvable'");
             var isdeleted = await _RoleManager.Supprimer(id);
             if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de Role.");

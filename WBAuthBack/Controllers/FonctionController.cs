@@ -3,6 +3,7 @@ using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace WBAuthBack.Controllers
 {
     [Route("api/[controller]")]
@@ -33,6 +34,7 @@ namespace WBAuthBack.Controllers
             if (oFonction == null) return NoContent();
             return Ok(oFonction);
         }
+
 
         //GET : api/Fonction/idFonction
         [HttpGet]

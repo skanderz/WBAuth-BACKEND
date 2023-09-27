@@ -51,12 +51,20 @@ namespace WBAuth.DAL.Repository
         }
 
 
-        public async Task<Utilisateur> Recherche(int Id)
+        public async Task<Utilisateur> RechercheById(int Id)
         {
-            return await _dataContext.Set<Utilisateur>().FirstOrDefaultAsync(u => u.Id == Id);
+            var oUser = await _dataContext.Set<Utilisateur>().FirstOrDefaultAsync(u => u.Id == Id);
+            if (oUser == null) throw new ArgumentNullException(nameof(oUser));
+            return oUser;
         }
 
 
+        public async Task<IEnumerable<Utilisateur>> Recherche(string rech)
+        {
+            var Users = await _dataContext.Set<Utilisateur>().Where(u => u.NomUtilisateur == rech || u.Email == rech || u.Nom == rech || u.Prenom == rech).ToListAsync();
+            if (Users == null) throw new ArgumentNullException(nameof(Users));
+            return Users;
+        }
 
 
 

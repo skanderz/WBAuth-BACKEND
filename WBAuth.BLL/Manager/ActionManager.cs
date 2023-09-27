@@ -29,12 +29,21 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<Action> Recherche(int Id)
+        public async Task<Action> RechercheById(int Id)
         {
-            var oAction = await _IActionRepository.Recherche(rech);
+            var oAction = await _IActionRepository.RechercheById(Id);
             if (oAction == null) throw new ArgumentNullException(nameof(oAction));
             var model = _mapper.Map<Action>(oAction);
             return model;
+        }
+
+
+        public async Task<IEnumerable<Action>> Recherche(string rech)
+        {
+            var Actions = await _IActionRepository.Recherche(rech);
+            if (Actions == null) throw new ArgumentNullException(nameof(Actions));
+            var models = _mapper.Map<List<Action>>(Actions);
+            return models;
         }
 
 

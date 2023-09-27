@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using WBAuth.DAL.IRepository;
 using WBAuth.DAL.Models;
 using Journalisation = WBAuth.DAL.Models.Journalisation;
@@ -18,7 +19,15 @@ namespace WBAuth.DAL.Repository
             return await _dataContext.Set<Journalisation>().Where(j => j.IdUtilisateur == IdUtilisateur).ToListAsync();
         }
 
-        public async Task<Journalisation> Recherche(int Id)
+        public async Task<IEnumerable<Journalisation>> Recherche(string rech)
+        {
+            DateTime parsedDate = DateTime.Parse(rech);
+            var Journalisations = await _dataContext.Set<Journalisation>().Where(j => j.DateConnexion == parsedDate || j.AdresseIP == rech).ToListAsync();
+            if (Journalisations == null) Console.Error.WriteLine("Liste Introuvable.");
+            return Journalisations;
+        }
+
+        public async Task<Journalisation> RechercheById(int Id)
         {
             var oJournalisation = await _dataContext.Set<Journalisation>().FirstOrDefaultAsync(j => j.Id == Id);
             if (oJournalisation == null) Console.Error.WriteLine("Aucun élément trouvé avec l'ID spécifié.");
