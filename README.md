@@ -1,4 +1,4 @@
-                                              APPLICATION D'AUTHENTIFICATION WBAUTH
-▪ Design and development of an external authentication application offering a variety of authentication options to applications, along with advanced user and privilege management. 
-▪ Implementation of a logging and tracking system.
-▪ Implementation of a layered architecture and RESTful web services to enhance scalability and maintainability.
+<h3 align="center"> 💻 APPLICATION D'AUTHENTIFICATION WBAUTH 💻 </h1>
+<h5> ▪ Design and development of an external authentication application offering a variety of authentication options to applications, along with advanced user and privilege management. </h5>
+<h5> ▪ Implementation of a logging and tracking system.</h5>
+<h5> ▪ Implementation of a layered architecture and RESTful web services to enhance scalability and maintainability.</h5>
