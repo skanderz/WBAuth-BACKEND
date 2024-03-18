@@ -1,26 +1,19 @@
-﻿using System.Text.Json.Serialization;
-
-
-namespace WBAuth.DAO.Models
+﻿namespace WBAuth.DAO.Models
 {
     public class Application
     {
-
         public int Id { get; set; }
         public string? Nom { get; set; }
         public string? Description { get; set; }
         public string? Url { get; set; }
-        [JsonIgnore]
         public byte[]? Logo { get; set; }
-
-        [JsonIgnore]
+        public bool Auth2FA { get; set; } = false;
+        public bool AuthGoogle { get; set; } = false;
+        public bool AuthFacebook { get; set; } = false;
+        public bool AuthLinkedIn { get; set; } = false;
         public ICollection<UtilisateurApplication>? UtilisateurApplication { get; set; }
-
-        [JsonIgnore]
         public ICollection<Fonction>? Fonctions { get; set; }
-
-        [JsonIgnore]
-        public ICollection<Role>? Role { get; set; }
+        public ICollection<Role>? Roles { get; set; }
 
     }
 

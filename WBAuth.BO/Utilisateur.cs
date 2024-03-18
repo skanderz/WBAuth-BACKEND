@@ -1,22 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace WBAuth.BO
 {
-    public class Utilisateur
+    public class Utilisateur 
     {
-
-        public int Id { get; set; }
-        public string? NomUtilisateur { get; set; }
+        public string? Id { get; set; }
         public string? Email { get; set; }
-
-        [Required]
-        public string? MotDePasse { get; set; }
+        public string? Password { get; set; }
+        public string? UserName { get; set; }
         public string? Nom { get; set; }
         public string? Prenom { get; set; }
+        public string? PhoneNumber { get; set; }
         public DateTime? DateInscription { get; set; }
         public bool? Status { get; set; }
+        public bool? EmailConfirmed { get; set; }
+        public bool? TwoFactorEnabled { get; set; }
+        [JsonIgnore]
         public ICollection<UtilisateurApplication>? UtilisateurApplication { get; set; }
-        public ICollection<Journalisation>? Journalisation { get; set; }
+        [JsonIgnore]
+        public ICollection<Journalisation>? Journalisations { get; set; }
     }
 }
 

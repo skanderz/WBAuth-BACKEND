@@ -3,7 +3,7 @@ using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WBAuthBack.Controllers
+namespace WBAuth.Back.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,7 +16,7 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Permission/List
         [HttpGet]
-        [Route("ListMultiFonction/{IdApplication}/{IdRole}")]
+        [Route("ListeMultiFonction/{IdApplication}/{IdRole}")]
         public async Task<IActionResult> ChargerAllMultiFonction(int IdApplication, int IdRole)
         {
             var permissions = await _PermissionManager.ChargerAllMultiFonction(IdApplication, IdRole);
@@ -27,7 +27,7 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Permission/List
         [HttpGet]
-        [Route("ListFonctionUnique/{IdApplication}/{IdRole}")]
+        [Route("ListeFonctionUnique/{IdApplication}/{IdRole}")]
         public async Task<IActionResult> ChargerAllFonctionUnique(int IdApplication, int IdRole)
         {
             var permissions = await _PermissionManager.ChargerAllFonctionUnique(IdApplication, IdRole);
@@ -39,10 +39,10 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Permission/idPermission
         [HttpGet]
-        [Route("RechercheFonctionUnique/Get/{id}/{IdApplication}/{IdRole}")]
-        public async Task<IActionResult> RechercheMultiFonction(int Id, int IdApplication, int IdRole)
+        [Route("RechercheFonctionUnique/Get/{id}")]
+        public async Task<IActionResult> RechercheMultiFonction(int Id)
         {
-            var oPermission = await _PermissionManager.RechercheMultiFonctionById(Id, IdApplication, IdRole);
+            var oPermission = await _PermissionManager.RechercheMultiFonctionById(Id);
             if (oPermission == null)  return NoContent();
             return Ok(oPermission);
         }
@@ -50,35 +50,14 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Permission/idPermission
         [HttpGet]
-        [Route("RechercheMultiFonction/Get/{id}/{IdApplication}/{IdRole}")]
-        public async Task<IActionResult> RechercheFonctionUnique(int Id, int IdApplication, int IdRole)
+        [Route("RechercheMultiFonction/Get/{id}")]
+        public async Task<IActionResult> RechercheFonctionUnique(int Id)
         {
-            var oPermission = await _PermissionManager.RechercheFonctionUniqueById(Id, IdApplication, IdRole);
+            var oPermission = await _PermissionManager.RechercheFonctionUniqueById(Id);
             if (oPermission == null) return NoContent();
             return Ok(oPermission);
         }
 
-
-        //GET : api/Permission/idPermission
-        [HttpGet]
-        [Route("RechercheFonctionUnique/{rech}/{IdApplication}/{IdRole}")]
-        public async Task<IActionResult> RechercheMultiFonction(string rech, int IdApplication, int IdRole)
-        {
-            var oPermission = await _PermissionManager.RechercheMultiFonction(rech, IdApplication, IdRole);
-            if (oPermission == null) return NoContent();
-            return Ok(oPermission);
-        }
-
-
-        //GET : api/Permission/idPermission
-        [HttpGet]
-        [Route("RechercheMultiFonction/{rech}/{IdApplication}/{IdRole}")]
-        public async Task<IActionResult> RechercheFonctionUnique(string rech, int IdApplication, int IdRole)
-        {
-            var oPermission = await _PermissionManager.RechercheFonctionUnique(rech, IdApplication, IdRole);
-            if (oPermission == null) return NoContent();
-            return Ok(oPermission);
-        }
 
 
 
@@ -97,19 +76,15 @@ namespace WBAuthBack.Controllers
         //PUT : api/Permission/modifier
         [HttpPut]
         [Route("modifier")]
-        public async Task<IActionResult> Modifier([FromBody] Permission oPermission ,string type)
+        public async Task<IActionResult> Modifier([FromBody] Permission oPermission)
         {
-            if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            if(oPermission.Fonction.Type == "unique"){ 
-                var perm = await _PermissionManager.RechercheFonctionUniqueById(oPermission.Id, oPermission.Fonction.IdApplication, oPermission.IdRole);
-                if (perm == null)  return NotFound("Cet Permission est introuvable'");
-            }
-            if (oPermission.Fonction.Type == "multi"){
-                var perm = await _PermissionManager.RechercheMultiFonctionById(oPermission.Id, oPermission.Fonction.IdApplication, oPermission.IdRole);
-                if (perm == null) return NotFound("Cet Permission est introuvable'");
-            }
-
-            var id = await _PermissionManager.Modifier(oPermission ,type);
+            if (!ModelState.IsValid)  {  return BadRequest(ModelState);  }
+                var perm = await _PermissionManager.RechercheFonctionUniqueById(oPermission.Id);
+                if (perm == null) { 
+                     perm = await _PermissionManager.RechercheMultiFonctionById(oPermission.Id); 
+                     if (perm == null) return NotFound("Cet Permission est introuvable'");
+                }
+            var id = await _PermissionManager.Modifier(oPermission);
             if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de le Permission: {oPermission.Nom}.");     
             return Ok(id);
         }
@@ -118,15 +93,17 @@ namespace WBAuthBack.Controllers
         //PUT : api/Permission/modifierAcces
         [HttpPut]
         [Route("modifierAcces")]
-        public async Task<IActionResult> ModifierAcces(int Id, int IdApplication, int IdRole, int i)
+        public async Task<IActionResult> ModifierAcces([FromBody] Permission oPermission,int IdApplication ,int i)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
-            var perm = await _PermissionManager.RechercheFonctionUniqueById(Id, IdApplication, IdRole);
-            var perm2 = await _PermissionManager.RechercheMultiFonctionById(Id, IdApplication, IdRole);
-            if (perm == null && perm2 == null) return NotFound("Cet Permission est introuvable'");
-
-            var id = await _PermissionManager.ModifierAcces(Id, IdApplication, IdRole, i);
-            if (id <= 0) return BadRequest($"Une erreur est survenue lors de la mise à jour de le Permission avec l'id : {Id}.");
+            var perm = await _PermissionManager.RechercheFonctionUniqueById(oPermission.Id);
+            if (perm == null)
+            {
+                var perm2 = await _PermissionManager.RechercheMultiFonctionById(oPermission.Id);
+                if (perm == null && perm2 == null) return NotFound("Cet Permission est introuvable'");
+            }
+            var id = await _PermissionManager.ModifierAcces(oPermission.Id, i);
+            if (id <= 0) return BadRequest($"Une erreur est survenue lors de la mise à jour de le Permission avec l'id : {oPermission.Id}.");
             return Ok(id);
         }
 

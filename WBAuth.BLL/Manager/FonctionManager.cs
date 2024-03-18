@@ -36,9 +36,9 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<Fonction> RechercheById(int Id, int IdApplication)
+        public async Task<Fonction> RechercheById(int Id)
         {
-            var oFonction = await _IFonctionRepository.RechercheById(Id, IdApplication);
+            var oFonction = await _IFonctionRepository.RechercheById(Id);
             var model = _mapper.Map<Fonction>(oFonction);
             return model;
         }

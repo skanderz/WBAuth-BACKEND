@@ -11,24 +11,24 @@ namespace WBAuth.DAL.Models
         public int Id { get; set; }
 
 
-        [ForeignKey("Role, DeleteBehavior = DeleteBehavior.NoAction")]
+        [ForeignKey("Role")]
         public int IdRole { get; set; }
         [Required]
         [InverseProperty("Permissions")]
         public Role? Role { get; set; }
 
 
-        [ForeignKey("Fonction, DeleteBehavior = DeleteBehavior.NoAction")]
+        [ForeignKey("Fonction")]
         public int IdFonction { get; set; }
         [Required]
-        [InverseProperty("Permission")]
+        [InverseProperty("Permissions")]
         public Fonction? Fonction { get; set; }
 
 
         [Required]
         public string? Nom { get; set; }
 
-        public int Status { get; set; } = 111111;
+        public string Status { get; set; } = "111111";
 
 
     }

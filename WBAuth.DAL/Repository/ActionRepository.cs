@@ -16,17 +16,19 @@ namespace WBAuth.DAL.Repository
         public async Task<IEnumerable<Action>> ChargerListe(int IdJournalisation) { return await _dataContext.Set<Action>().Where(a => a.IdJournalisation == IdJournalisation).ToListAsync(); }
 
 
-
-        public async Task<int> EnregistrementActions(int IdJournalisation)
+        public async Task<int> EnregistrementActions(Action oAction)
         {
-            /* ==> ajouter task et async <== */
-            throw new NotImplementedException();
+            if (oAction == null) throw new ArgumentNullException(nameof(oAction));
+            _dataContext.Entry(oAction).State = EntityState.Added;
+            await _dataContext.SaveChangesAsync();
+            return oAction.Id;
         }
 
 
         public async Task<IEnumerable<Action>> Recherche(string rech)
         {
-            var Actions = await _dataContext.Set<Action>().Where(a => a.Description == rech).ToListAsync();
+            DateTime parsedDate = DateTime.Parse(rech);
+            var Actions = await _dataContext.Set<Action>().Where(a => a.Description == rech || a.Application == rech || a.Date == parsedDate).ToListAsync();
             if (Actions == null) { Console.Error.WriteLine("Liste Introuvable."); }
             return Actions;
         }

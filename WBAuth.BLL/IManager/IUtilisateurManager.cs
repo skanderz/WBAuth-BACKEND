@@ -1,4 +1,5 @@
-﻿using WBAuth.BO;
+﻿using Microsoft.AspNetCore.Identity;
+using WBAuth.BO;
 
 
 namespace WBAuth.BLL.IManager
@@ -7,10 +8,9 @@ namespace WBAuth.BLL.IManager
     {
         Task<IEnumerable<Utilisateur>> ChargerAll();
         Task<IEnumerable<Utilisateur>> Recherche(string rech);
-        Task<Utilisateur> RechercheById(int id);
-        Task<int> Ajouter(Utilisateur oUtilisateur);
-        Task<int> Modifier(Utilisateur oUtilisateur);
-        Task<bool> Supprimer(int Id);
+        Task<Utilisateur> RechercheById(string id);
+
+
     }
 
 

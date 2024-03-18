@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "WBAuthBack": {
+    "WBAuth.Back": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

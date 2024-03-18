@@ -3,7 +3,7 @@ using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WBAuthBack.Controllers
+namespace WBAuth.Back.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -37,10 +37,10 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Role/idRole
         [HttpGet]
-        [Route("Get/{id}/{IdApplication}")]
-        public async Task<IActionResult> ChargerRoleById(int Id, int IdApplication)
+        [Route("Get/{Id}")]
+        public async Task<IActionResult> ChargerRoleById(int Id)
         {
-            var oRole = await _RoleManager.RechercheById(Id, IdApplication);
+            var oRole = await _RoleManager.RechercheById(Id);
             if (oRole == null) return NoContent();
             return Ok(oRole);
         }
@@ -64,7 +64,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Modifier([FromBody] Role oRole)
         {
             if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            var ticketType = await _RoleManager.RechercheById(oRole.Id, oRole.IdApplication);
+            var ticketType = await _RoleManager.RechercheById(oRole.Id);
             if (ticketType == null)  return NotFound("Cet Role est introuvable'");
             var id = await _RoleManager.Modifier(oRole);
             if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'Role {oRole.Nom}.");     
@@ -78,7 +78,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Supprimer(int id ,int IdApplication)
         {
             if (id <= 0) {   return BadRequest("Role introuvable");  }
-            var Role = await _RoleManager.RechercheById(id ,IdApplication);
+            var Role = await _RoleManager.RechercheById(id);
             if (Role == null)  return NotFound("Role est introuvable'");
             var isdeleted = await _RoleManager.Supprimer(id);
             if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de Role.");

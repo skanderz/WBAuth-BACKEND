@@ -13,37 +13,44 @@ namespace WBAuth.DAL.Repository
         public UtilisateurApplicationRepository(ApplicationDbContext dataContext) { _dataContext = dataContext; }
 
 
+        public async Task<int> Ajouter(UtilisateurApplication oUA)
+        {
+            if (oUA == null) throw new ArgumentNullException(nameof(oUA));
+            _dataContext.Entry(oUA).State = EntityState.Added;
+            await _dataContext.SaveChangesAsync();
+            return oUA.Id;
+        }
 
         public async Task<IEnumerable<UtilisateurApplication>> ChargerAllByApplication(int IdApplication)
         {
-            var userlist = await _dataContext.Set<UtilisateurApplication>().Where(ua => ua.IdApplication == IdApplication && ua.Acces == true).ToArrayAsync();
+            var userlist = await _dataContext.Set<UtilisateurApplication>().Where(ua => ua.IdApplication == IdApplication).ToArrayAsync();
             if (userlist == null) throw new ArgumentNullException(nameof(userlist));
             return userlist;
         }
 
 
-        public async Task<IEnumerable<UtilisateurApplication>> ChargerAllByUtilisateur(int IdUtilisateur)
+        public async Task<IEnumerable<UtilisateurApplication>> ChargerAllByUtilisateur(string IdU)
         {
-            var userlist = await _dataContext.Set<UtilisateurApplication>().Where(ua => ua.IdUtilisateur == IdUtilisateur).ToArrayAsync();
+            var userlist = await _dataContext.Set<UtilisateurApplication>().Where(ua => ua.GuidUtilisateur == IdU).ToArrayAsync();
             if (userlist == null) throw new ArgumentNullException(nameof(userlist));
             return userlist;
         }
 
 
-        public async Task<UtilisateurApplication> Recherche(int IdUtilisateur, int IdApplication)
+        public async Task<UtilisateurApplication> Recherche(int Id)
         {
-            var user = await _dataContext.Set<UtilisateurApplication>().Where(ua => ua.IdApplication == IdApplication && ua.Acces == true).FirstOrDefaultAsync(ua => ua.IdUtilisateur == IdUtilisateur);
-            if (user == null) throw new ArgumentNullException(nameof(user));
-            return user;
+            var userapp = await _dataContext.Set<UtilisateurApplication>().FirstOrDefaultAsync(ua => ua.Id == Id);
+            if (userapp == null) throw new ArgumentNullException(nameof(userapp));
+            return userapp;
         }
 
 
-        public async Task<int> ModifierAccesRole(int IdUtilisateur, int IdApplication, bool Acces, string NomRole)
+        public async Task<int> ModifierAccesRole(UtilisateurApplication oUA)
         {
-            var entity = await _dataContext.Set<UtilisateurApplication>().Where(ua => ua.IdApplication == IdApplication).FirstOrDefaultAsync(ua => ua.IdUtilisateur == IdUtilisateur);
-            if (entity != null) throw new ArgumentNullException(nameof(entity));
-            entity.Acces = Acces;
-            entity.Role.Nom = NomRole;
+            if (oUA == null) throw new ArgumentNullException(nameof(oUA));
+            var entity = await _dataContext.Set<UtilisateurApplication>().FirstOrDefaultAsync(ua => ua.Id == oUA.Id);
+            entity.Acces = oUA.Acces;
+            entity.IdRole = oUA.IdRole;
             _dataContext.Entry(entity).State = EntityState.Modified;
             await _dataContext.SaveChangesAsync();
             return entity.Id;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using WBAuth.DAL.IRepository;
@@ -11,21 +12,16 @@ namespace WBAuth.BLL.Manager
     {
         private readonly IUtilisateurRepository _IUtilisateurRepository;
         private readonly IMapper _mapper;
+        private readonly UserManager<DAL.Models.Utilisateur> _userManager;
 
-        public UtilisateurManager(IUtilisateurRepository IUtilisateurRepository, IMapper mapper)
+
+        public UtilisateurManager(UserManager<DAL.Models.Utilisateur> userManager ,IUtilisateurRepository IUtilisateurRepository, IMapper mapper)
         {
             _IUtilisateurRepository = IUtilisateurRepository;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
-
-        public async Task<int> Ajouter(Utilisateur oUtilisateur)
-        {
-            if (oUtilisateur == null) throw new ArgumentNullException(nameof(oUtilisateur));
-            var entity = _mapper.Map<DAL.Models.Utilisateur>(oUtilisateur);
-            var id = await _IUtilisateurRepository.Ajouter(entity);
-            return id;
-        }
 
 
         public async Task<IEnumerable<Utilisateur>> ChargerAll()
@@ -43,24 +39,13 @@ namespace WBAuth.BLL.Manager
             return models;
         }
 
-        public async Task<Utilisateur> RechercheById(int Id)
+        public async Task<Utilisateur> RechercheById(string Id)
         {
             var oUtilisateur = await _IUtilisateurRepository.RechercheById(Id);
             var model = _mapper.Map<Utilisateur>(oUtilisateur);
             return model;
         }
 
-
-        public async Task<int> Modifier(Utilisateur oUtilisateur)
-        {
-            if (oUtilisateur == null) throw new ArgumentNullException(nameof(oUtilisateur));
-            var entity = _mapper.Map<DAL.Models.Utilisateur>(oUtilisateur);
-            var id = await _IUtilisateurRepository.Modifier(entity);
-            return id;
-        }
-
-
-        public async Task<bool> Supprimer(int Id) { return await _IUtilisateurRepository.Supprimer(Id); }
 
 
 

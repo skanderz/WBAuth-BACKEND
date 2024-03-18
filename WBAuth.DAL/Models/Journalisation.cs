@@ -12,20 +12,18 @@ namespace WBAuth.DAL.Models
         [Column("Id")]
         public int Id { get; set; }
 
+        [Required]
+        [Column("Application", TypeName = "TEXT")]
+        public string? Application { get; set; }
 
-
-        [Column("AdresseIP", TypeName = "VARCHAR(50)")]
+        [Column("AdresseIP", TypeName = "VARCHAR(MAX)")]
         public string? AdresseIP { get; set; }
-
-
 
         [Column("DateConnexion", TypeName = "datetime")]
         public DateTime DateConnexion { get; set; }
 
-
-
         [ForeignKey("Utilisateur")]
-        public int IdUtilisateur { get; set; }
+        public string? GuidUtilisateur { get; set; }
         public Utilisateur? Utilisateur { get; set; }
         public ICollection<Action>? Actions { get; set; }
 

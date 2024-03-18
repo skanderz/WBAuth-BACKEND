@@ -8,7 +8,7 @@ namespace WBAuth.BLL.IManager
         Task<IEnumerable<Action>> ChargerListe(int IdJournalisation);
         Task<Action> RechercheById(int Id);
         Task<IEnumerable<Action>> Recherche(string rech);
-        Task<int> EnregistrementActions(int IdJournalisation);
+        Task<int> EnregistrementActions(Action oAction);
         Task<bool> Clear(int Id);
     }
 

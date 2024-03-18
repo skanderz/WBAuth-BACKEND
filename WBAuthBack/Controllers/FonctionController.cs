@@ -4,7 +4,7 @@ using WBAuth.BO;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace WBAuthBack.Controllers
+namespace WBAuth.Back.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -27,10 +27,10 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Fonction/idFonction
         [HttpGet]
-        [Route("Get/{Id}/{IdApplication}")]
-        public async Task<IActionResult> ChargerFonction(int Id, int IdApplication)
+        [Route("Get/{Id}")]
+        public async Task<IActionResult> ChargerFonction(int Id)
         {
-            var oFonction = await _FonctionManager.RechercheById(Id, IdApplication);
+            var oFonction = await _FonctionManager.RechercheById(Id);
             if (oFonction == null) return NoContent();
             return Ok(oFonction);
         }
@@ -65,7 +65,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Modifier([FromBody] Fonction oFonction, int IdApplication)
         {
             if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            var fonction = await _FonctionManager.RechercheById(oFonction.Id ,IdApplication);
+            var fonction = await _FonctionManager.RechercheById(oFonction.Id);
             if (fonction == null)  return NotFound("Cet Fonction est introuvable'");
             var id = await _FonctionManager.Modifier(oFonction ,IdApplication);
             if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de la Fonction : {oFonction.Nom}.");     
@@ -79,7 +79,7 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Supprimer(int id, int IdApplication)
         {
             if (id <= 0) {   return BadRequest("Fonction introuvable");  }
-            var Fonction = await _FonctionManager.RechercheById(id, IdApplication);
+            var Fonction = await _FonctionManager.RechercheById(id);
             if (Fonction == null)  return NotFound("Fonction est introuvable'");
             var isdeleted = await _FonctionManager.Supprimer(id, IdApplication);
             if (!isdeleted)  return BadRequest($"Une erreur est survenue lors de la suppression de la Fonction: {Fonction.Nom}.");

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WBAuth.BLL.IManager;
 using WBAuth.DAL.IRepository;
+using WBAuth.DAL.Repository;
 using Action = WBAuth.BO.Action;
 
 
@@ -47,10 +48,12 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public Task<int> EnregistrementActions(int IdJournalisation)
+        public async Task<int> EnregistrementActions(Action oAction)
         {
-            // Saisir Await //
-            throw new NotImplementedException();
+            if (oAction == null) throw new ArgumentNullException(nameof(oAction));
+            var entity = _mapper.Map<DAL.Models.Action>(oAction);
+            var id = await _IActionRepository.EnregistrementActions(entity);
+            return id;
         }
 
         public async Task<bool> Clear(int Id) { return await _IActionRepository.Clear(Id); }

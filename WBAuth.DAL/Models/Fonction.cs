@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
 
 
 
@@ -15,7 +17,7 @@ namespace WBAuth.DAL.Models
 
 
         [Required]
-        [Column("NomAction", TypeName = "VARCHAR(50)")]
+        [Column("Nom", TypeName = "VARCHAR(MAX)")]
         public string? Nom { get; set; }
 
 
@@ -27,12 +29,13 @@ namespace WBAuth.DAL.Models
         [Column("Description", TypeName = "TEXT")]
         public string? Description { get; set; }
 
+        [JsonIgnore]
+        public ICollection<Permission>? Permissions { get; set; }
 
-        public Permission? Permission { get; set; }
 
-
-        [ForeignKey("Application, DeleteBehavior = DeleteBehavior.NoAction")]
+        [ForeignKey("Application, DeleteBehavior = DeleteBehavior.Cascade")]
         public int IdApplication { get; set; }
+        [JsonIgnore]
         public Application? Application { get; set; }
 
     }

@@ -9,30 +9,30 @@ namespace WBAuth.DAL.Models
     public class UtilisateurApplication
     {
 
-
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [ForeignKey("Role, DeleteBehavior = DeleteBehavior.NoAction")]
-        public int IdRole { get; set; }
-        [Required]
-        [InverseProperty("UtilisateurApplication")]
+        public int? IdRole { get; set; }
+
+        [InverseProperty("UtilisateurApplications")]
         public Role? Role { get; set; }
 
 
-        [ForeignKey("Utilisateur, DeleteBehavior = DeleteBehavior.NoAction")]
-        public int IdUtilisateur { get; set; }
+        [ForeignKey("Utilisateur, DeleteBehavior = DeleteBehavior.Cascade")]
         [Required]
-        [InverseProperty("UtilisateurApplication")]
+        public string? GuidUtilisateur { get; set; }
+        [InverseProperty("UtilisateurApplications")]
         public Utilisateur? Utilisateur { get; set; }
 
 
-        [ForeignKey("Application, DeleteBehavior = DeleteBehavior.NoAction")]
-        public int IdApplication { get; set; }
+        [ForeignKey("Application, DeleteBehavior = DeleteBehavior.Cascade")]
         [Required]
+        public int IdApplication { get; set; }
+
         [InverseProperty("UtilisateurApplications")]
         public Application? Application { get; set; }
-
 
 
         [Required]

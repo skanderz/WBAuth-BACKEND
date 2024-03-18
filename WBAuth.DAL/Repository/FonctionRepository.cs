@@ -29,11 +29,9 @@ namespace WBAuth.DAL.Repository
             return fonctions;
         }
 
-        public async Task<Fonction> RechercheById(int Id, int IdApplication)
+        public async Task<Fonction> RechercheById(int Id)
         {
-            var application = await _dataContext.Application.FindAsync(IdApplication);
-            var fonction = await _dataContext.Set<Fonction>().Where(f => f.IdApplication == IdApplication).FirstOrDefaultAsync(f => f.Id == Id);
-            if (application == null) throw new InvalidOperationException("L'application spécifiée n'a pas été trouvée.");
+            var fonction = await _dataContext.Set<Fonction>().FirstOrDefaultAsync(f => f.Id == Id);
             if (fonction == null) throw new InvalidOperationException("La fonction spécifiée n'a pas été trouvée.");
             return fonction;
         }
@@ -44,6 +42,7 @@ namespace WBAuth.DAL.Repository
             var application = await _dataContext.Application.FindAsync(IdApplication);
 
             if (application == null) throw new InvalidOperationException("L'application spécifiée n'a pas été trouvée.");
+            if (application.Fonctions == null){  application.Fonctions = new List<Fonction>(); }
             application.Fonctions.Add(oFonction);
 
             _dataContext.Entry(oFonction).State = EntityState.Added;
@@ -61,6 +60,7 @@ namespace WBAuth.DAL.Repository
 
             var entity = await _dataContext.Set<Fonction>().Where(f => f.IdApplication == IdApplication).FirstOrDefaultAsync(f => f.Id == oFonction.Id);
             entity.Nom = oFonction.Nom;
+            entity.Type = oFonction.Type;
             entity.Description = oFonction.Description;
             _dataContext.Entry(entity).State = EntityState.Modified;
             await _dataContext.SaveChangesAsync();

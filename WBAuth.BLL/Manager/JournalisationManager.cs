@@ -20,10 +20,9 @@ namespace WBAuth.BLL.Manager
         }
 
 
-
-        public async Task<IEnumerable<Journalisation>> ChargerListe(int IdUtilisateur)
+        public async Task<IEnumerable<Journalisation>> ChargerListe(string GuidUtilisateur)
         {
-            var Journalisations = await _IJournalisationRepository.ChargerListe(IdUtilisateur);
+            var Journalisations = await _IJournalisationRepository.ChargerListe(GuidUtilisateur);
             if (Journalisations == null) throw new ArgumentNullException(nameof(Journalisations));
             var model = _mapper.Map<List<Journalisation>>(Journalisations);
             return model;
@@ -48,13 +47,16 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<bool> Clear(int IdUtilisateur) { return await _IJournalisationRepository.Clear(IdUtilisateur); }
-
-
-        public async Task<int> EnregistrementJournalisation(int IdUtilisateur)
+        public async Task<int> EnregistrementJournalisation(Journalisation oJournalisation)
         {
-            // Saisir Await // 
-            throw new NotImplementedException();
+            if (oJournalisation == null) throw new ArgumentNullException(nameof(oJournalisation));
+            var entity = _mapper.Map<DAL.Models.Journalisation>(oJournalisation);
+            var id = await _IJournalisationRepository.EnregistrementJournalisation(entity);
+            return id;
+        }
+
+        public async Task<bool> Clear(string GuidUtilisateur) { 
+            return await _IJournalisationRepository.Clear(GuidUtilisateur); 
         }
 
 

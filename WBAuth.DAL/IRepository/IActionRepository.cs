@@ -8,7 +8,7 @@ namespace WBAuth.DAL.IRepository
         Task<IEnumerable<Action>> ChargerListe(int IdJournalisation);
         Task<IEnumerable<Action>> Recherche(string rech);
         Task<Action> RechercheById(int Id);
-        Task<int> EnregistrementActions(int IdJournalisation);
+        Task<int> EnregistrementActions(Action oAction);
         Task<bool> Clear(int Id);
 
     }

@@ -32,11 +32,9 @@ namespace WBAuth.DAL.Repository
         }
 
 
-        public async Task <Role> RechercheById(int Id, int IdApplication)
+        public async Task<Role> RechercheById(int Id)
         {
-            var application = await _dataContext.Application.FindAsync(IdApplication);
-            var role = await _dataContext.Set<Role>().Where(f => f.IdApplication == IdApplication).FirstOrDefaultAsync(r => r.Id == Id);
-            if (application == null) throw new InvalidOperationException("L'application spécifiée n'a pas été trouvée.");
+            var role = await _dataContext.Set<Role>().FirstOrDefaultAsync(r => r.Id == Id);
             if (role == null) throw new InvalidOperationException("La role spécifiée n'a pas été trouvée.");
             return role;
         }
@@ -57,6 +55,7 @@ namespace WBAuth.DAL.Repository
             var entity = await _dataContext.Set<Role>().FirstOrDefaultAsync(item => item.Id == oRole.Id);
             entity.Nom = oRole.Nom;
             entity.Niveau = oRole.Niveau;
+            entity.Description = oRole.Description;
             _dataContext.Entry(entity).State = EntityState.Modified;
             await _dataContext.SaveChangesAsync();
             return oRole.Id;

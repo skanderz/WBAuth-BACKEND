@@ -12,6 +12,9 @@ namespace WBAuth.DAL.Models
         [Column("Id")]
         public int Id { get; set; }
 
+        [Required]
+        [Column("Application", TypeName = "TEXT")]
+        public string Application { get; set; }
 
         [Required]
         [Column(TypeName = "datetime")]

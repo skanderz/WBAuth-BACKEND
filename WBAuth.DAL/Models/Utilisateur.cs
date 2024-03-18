@@ -1,49 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace WBAuth.DAL.Models
 {
     [Table("Utilisateur")]
-    public class Utilisateur
+    public class Utilisateur : IdentityUser
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("Id")]
-        public int Id { get; set; }
-
-
         [Required]
-        [Column("NomUtilisateur", TypeName = "VARCHAR(50)")]
-        public string? NomUtilisateur { get; set; }
-
-
-        [Required]
-        [EmailAddress(ErrorMessage = "L'adresse e-mail n'est pas valide.")]
-        [Column("EMAIL", TypeName = "VARCHAR(100)")]
-        public string? Email { get; set; }
-
-
-        [Required]
-        [Column("MotDePasse", TypeName = "TEXT")]
-        public string? MotDePasse { get; set; }
-
-
-        [Required]
-        [Column("Nom", TypeName = "VARCHAR(50)")]
+        [Column("Nom", TypeName = "VARCHAR(MAX)")]
         public string? Nom { get; set; }
 
-
         [Required]
-        [Column("Prenom", TypeName = "VARCHAR(50)")]
+        [Column("Prenom", TypeName = "VARCHAR(MAX)")]
         public string? Prenom { get; set; }
 
-
         [Column(TypeName = "datetime")]
-        public DateTime? DateInscription { get; set; }
+        public DateTime? DateInscription { get; set; } = new DateTime();
         public bool? Status { get; set; } = true;
-        public UtilisateurApplication? UtilisateurApplication { get; set; }
-        public ICollection<Journalisation>? Journalisation { get; set; }
+        public ICollection<UtilisateurApplication>? UtilisateurApplications { get; set; }
+        public ICollection<Journalisation>? Journalisations { get; set; }
 
     }
 }

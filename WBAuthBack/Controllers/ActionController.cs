@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Action = WBAuth.BO.Action;
 
 
-namespace WBAuthBack.Controllers
+namespace WBAuth.Back.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -28,7 +28,7 @@ namespace WBAuthBack.Controllers
 
         //GET : api/Action/idAction
         [HttpGet]
-        [Route("{rech}")]
+        [Route("Recherche/{rech}")]
         public async Task<IActionResult> Recherche(string rech)
         {
             var oAction = await _ActionManager.Recherche(rech);
@@ -54,8 +54,8 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> EnregistrementActions([FromBody] Action oAction)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
-            var id = await _ActionManager.EnregistrementActions(oAction.IdJournalisation);
-            if (id <= 0) return BadRequest($"Une erreur est survenue lors de la création de l'action a la date : {oAction.Date}.");
+            var id = await _ActionManager.EnregistrementActions(oAction);
+            if (id <= 0) return BadRequest($"Une erreur est survenue lors de la création de l'action");
             return Ok(id);
         }
 

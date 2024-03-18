@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using WBAuth.BO.Validators;
 
+
 namespace WBAuth.DAL.Models
 {
     [Table("Application")]
@@ -34,6 +35,10 @@ namespace WBAuth.DAL.Models
         [Column("Logo", TypeName = "varbinary(max)")]
         [AllowedImageExtensions(".png", ".jpg", ".jpeg", ".gif", ".bmp")]
         public byte[]? Logo { get; set; }
+        public bool Auth2FA { get; set; } = false;
+        public bool AuthGoogle { get; set; } = false;
+        public bool AuthFacebook { get; set; } = false;
+        public bool AuthLinkedIn { get; set; } = false;
 
         [JsonIgnore]
         public ICollection<UtilisateurApplication>? UtilisateurApplications { get; set; }
@@ -42,7 +47,7 @@ namespace WBAuth.DAL.Models
         public ICollection<Fonction>? Fonctions { get; set; }
 
         [JsonIgnore]
-        public ICollection<Role>? Role { get; set; }
+        public ICollection<Role>? Roles { get; set; }
 
 
 

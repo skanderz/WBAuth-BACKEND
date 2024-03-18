@@ -12,8 +12,8 @@ using WBAuth.DAL.Models;
 namespace WBAuth.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230925130637_mg2")]
-    partial class mg2
+    [Migration("20231208081331_mg1")]
+    partial class mg1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,71 +74,6 @@ namespace WBAuth.DAL.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -231,6 +166,11 @@ namespace WBAuth.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Application")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Application");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime");
 
@@ -256,6 +196,18 @@ namespace WBAuth.DAL.Migrations
                         .HasColumnName("Id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Auth2FA")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AuthFacebook")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AuthGoogle")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AuthLinkedIn")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT")
@@ -288,9 +240,6 @@ namespace WBAuth.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("ApplicationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("TEXT")
                         .HasColumnName("Description");
@@ -300,8 +249,8 @@ namespace WBAuth.DAL.Migrations
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(50)")
-                        .HasColumnName("NomAction");
+                        .HasColumnType("VARCHAR(MAX)")
+                        .HasColumnName("Nom");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -310,7 +259,7 @@ namespace WBAuth.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationId");
+                    b.HasIndex("IdApplication");
 
                     b.ToTable("Fonction");
                 });
@@ -325,19 +274,24 @@ namespace WBAuth.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AdresseIP")
-                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnType("VARCHAR(MAX)")
                         .HasColumnName("AdresseIP");
+
+                    b.Property<string>("Application")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Application");
 
                     b.Property<DateTime>("DateConnexion")
                         .HasColumnType("datetime")
                         .HasColumnName("DateConnexion");
 
-                    b.Property<int>("IdUtilisateur")
-                        .HasColumnType("int");
+                    b.Property<string>("GuidUtilisateur")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdUtilisateur");
+                    b.HasIndex("GuidUtilisateur");
 
                     b.ToTable("Journalisation");
                 });
@@ -360,13 +314,13 @@ namespace WBAuth.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdFonction")
-                        .IsUnique();
+                    b.HasIndex("IdFonction");
 
                     b.HasIndex("IdRole");
 
@@ -394,7 +348,7 @@ namespace WBAuth.DAL.Migrations
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnType("VARCHAR(MAX)")
                         .HasColumnName("Nom");
 
                     b.HasKey("Id");
@@ -406,47 +360,83 @@ namespace WBAuth.DAL.Migrations
 
             modelBuilder.Entity("WBAuth.DAL.Models.Utilisateur", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("Id");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DateInscription")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(100)")
-                        .HasColumnName("EMAIL");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("MotDePasse")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("MotDePasse");
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnType("VARCHAR(MAX)")
                         .HasColumnName("Nom");
 
-                    b.Property<string>("NomUtilisateur")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(50)")
-                        .HasColumnName("NomUtilisateur");
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Prenom")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnType("VARCHAR(MAX)")
                         .HasColumnName("Prenom");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("Status")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Utilisateur");
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("Utilisateurs", (string)null);
                 });
 
             modelBuilder.Entity("WBAuth.DAL.Models.UtilisateurApplication", b =>
@@ -460,24 +450,23 @@ namespace WBAuth.DAL.Migrations
                     b.Property<bool>("Acces")
                         .HasColumnType("bit");
 
+                    b.Property<string>("GuidUtilisateur")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("IdApplication")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdRole")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdUtilisateur")
+                    b.Property<int?>("IdRole")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GuidUtilisateur");
+
                     b.HasIndex("IdApplication");
 
-                    b.HasIndex("IdRole")
-                        .IsUnique();
-
-                    b.HasIndex("IdUtilisateur")
-                        .IsUnique();
+                    b.HasIndex("IdRole");
 
                     b.ToTable("UtilisateurApplication");
                 });
@@ -493,7 +482,7 @@ namespace WBAuth.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("WBAuth.DAL.Models.Utilisateur", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -502,7 +491,7 @@ namespace WBAuth.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("WBAuth.DAL.Models.Utilisateur", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -517,7 +506,7 @@ namespace WBAuth.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("WBAuth.DAL.Models.Utilisateur", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -526,7 +515,7 @@ namespace WBAuth.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("WBAuth.DAL.Models.Utilisateur", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -548,7 +537,9 @@ namespace WBAuth.DAL.Migrations
                 {
                     b.HasOne("WBAuth.DAL.Models.Application", "Application")
                         .WithMany("Fonctions")
-                        .HasForeignKey("ApplicationId");
+                        .HasForeignKey("IdApplication")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Application");
                 });
@@ -556,10 +547,9 @@ namespace WBAuth.DAL.Migrations
             modelBuilder.Entity("WBAuth.DAL.Models.Journalisation", b =>
                 {
                     b.HasOne("WBAuth.DAL.Models.Utilisateur", "Utilisateur")
-                        .WithMany("Journalisation")
-                        .HasForeignKey("IdUtilisateur")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Journalisations")
+                        .HasForeignKey("GuidUtilisateur")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Utilisateur");
                 });
@@ -567,9 +557,9 @@ namespace WBAuth.DAL.Migrations
             modelBuilder.Entity("WBAuth.DAL.Models.Permission", b =>
                 {
                     b.HasOne("WBAuth.DAL.Models.Fonction", "Fonction")
-                        .WithOne("Permission")
-                        .HasForeignKey("WBAuth.DAL.Models.Permission", "IdFonction")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .WithMany("Permissions")
+                        .HasForeignKey("IdFonction")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WBAuth.DAL.Models.Role", "Role")
@@ -586,7 +576,7 @@ namespace WBAuth.DAL.Migrations
             modelBuilder.Entity("WBAuth.DAL.Models.Role", b =>
                 {
                     b.HasOne("WBAuth.DAL.Models.Application", "Application")
-                        .WithMany("Role")
+                        .WithMany("Roles")
                         .HasForeignKey("IdApplication")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -596,23 +586,22 @@ namespace WBAuth.DAL.Migrations
 
             modelBuilder.Entity("WBAuth.DAL.Models.UtilisateurApplication", b =>
                 {
+                    b.HasOne("WBAuth.DAL.Models.Utilisateur", "Utilisateur")
+                        .WithMany("UtilisateurApplications")
+                        .HasForeignKey("GuidUtilisateur")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WBAuth.DAL.Models.Application", "Application")
                         .WithMany("UtilisateurApplications")
                         .HasForeignKey("IdApplication")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WBAuth.DAL.Models.Role", "Role")
-                        .WithOne("UtilisateurApplication")
-                        .HasForeignKey("WBAuth.DAL.Models.UtilisateurApplication", "IdRole")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("WBAuth.DAL.Models.Utilisateur", "Utilisateur")
-                        .WithOne("UtilisateurApplication")
-                        .HasForeignKey("WBAuth.DAL.Models.UtilisateurApplication", "IdUtilisateur")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .WithMany("UtilisateurApplications")
+                        .HasForeignKey("IdRole")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Application");
 
@@ -625,14 +614,14 @@ namespace WBAuth.DAL.Migrations
                 {
                     b.Navigation("Fonctions");
 
-                    b.Navigation("Role");
+                    b.Navigation("Roles");
 
                     b.Navigation("UtilisateurApplications");
                 });
 
             modelBuilder.Entity("WBAuth.DAL.Models.Fonction", b =>
                 {
-                    b.Navigation("Permission");
+                    b.Navigation("Permissions");
                 });
 
             modelBuilder.Entity("WBAuth.DAL.Models.Journalisation", b =>
@@ -644,14 +633,14 @@ namespace WBAuth.DAL.Migrations
                 {
                     b.Navigation("Permissions");
 
-                    b.Navigation("UtilisateurApplication");
+                    b.Navigation("UtilisateurApplications");
                 });
 
             modelBuilder.Entity("WBAuth.DAL.Models.Utilisateur", b =>
                 {
-                    b.Navigation("Journalisation");
+                    b.Navigation("Journalisations");
 
-                    b.Navigation("UtilisateurApplication");
+                    b.Navigation("UtilisateurApplications");
                 });
 #pragma warning restore 612, 618
         }

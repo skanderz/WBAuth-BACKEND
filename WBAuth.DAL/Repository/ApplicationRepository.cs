@@ -34,6 +34,10 @@ namespace WBAuth.DAL.Repository
             entity.Description = oApplication.Description;
             entity.Url = oApplication.Url;
             entity.Logo = oApplication.Logo;
+            entity.Auth2FA = oApplication.Auth2FA;
+            entity.AuthFacebook = oApplication.AuthFacebook;
+            entity.AuthGoogle  = oApplication.AuthGoogle;
+            entity.AuthLinkedIn = oApplication.AuthLinkedIn;
             _dataContext.Entry<Application>(entity).State = EntityState.Modified;
             await _dataContext.SaveChangesAsync();
             return oApplication.Id;

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using WBAuth.BO;
 
-namespace WBAuthBack.Mappers
+namespace WBAuth.Back.Mappers
 {
     public class MapperProfile : Profile
     {

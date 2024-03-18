@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using WBAuth.DAL.Models;
-using WBAuthBack;
+using WBAuth.Back;
 
 
 

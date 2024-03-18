@@ -2,7 +2,8 @@
 using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using WBAuth.DAL.IRepository;
-
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 
 namespace WBAuth.BLL.Manager
@@ -45,53 +46,39 @@ namespace WBAuth.BLL.Manager
         }
 
 
-        public async Task<int> Modifier(Permission oPermission, string type)
+        public async Task<int> Modifier(Permission oPermission)
         {
             if (oPermission == null) throw new ArgumentNullException(nameof(oPermission));
             var entity = _mapper.Map<DAL.Models.Permission>(oPermission);
-            var id = await _IPermissionRepository.Modifier(entity, type);
+            var id = await _IPermissionRepository.Modifier(entity);
             return id;
         }
 
 
-        public async Task<int> ModifierAcces(int Id, int IdApplication, int IdRole, int i)
+        public async Task<int> ModifierAcces(int Id, int i)
         {
-            var oPermission = await _IPermissionRepository.RechercheMultiFonctionById(Id, IdApplication, IdRole);
+            var oPermission = await _IPermissionRepository.RechercheMultiFonctionById(Id);
             var entity = _mapper.Map<DAL.Models.Permission>(oPermission);
-            var id = await _IPermissionRepository.ModifierAcces(entity.Id, entity.Fonction.IdApplication, entity.IdRole, i);
+            var id = await _IPermissionRepository.ModifierAcces(entity.Id, i);
             return id;
         }
 
 
-        public async Task<Permission> RechercheFonctionUniqueById(int Id, int IdApplication, int IdRole)
+        public async Task<Permission> RechercheFonctionUniqueById(int Id)
         {
-            var oPermission = await _IPermissionRepository.RechercheFonctionUniqueById(Id, IdApplication, IdRole);
+            var oPermission = await _IPermissionRepository.RechercheFonctionUniqueById(Id);
             var model = _mapper.Map<Permission>(oPermission);
             return model;
         }
 
 
-        public async Task<Permission> RechercheMultiFonctionById(int Id, int IdApplication, int IdRole)
+        public async Task<Permission> RechercheMultiFonctionById(int Id)
         {
-            var oPermission = await _IPermissionRepository.RechercheMultiFonctionById(Id, IdApplication, IdRole);
+            var oPermission = await _IPermissionRepository.RechercheMultiFonctionById(Id);
             var model = _mapper.Map<Permission>(oPermission);
             return model;
         }
 
-        public async Task<IEnumerable<Permission>> RechercheFonctionUnique(string rech, int IdApplication, int IdRole)
-        {
-            var Permissions = await _IPermissionRepository.RechercheFonctionUnique(rech, IdApplication, IdRole);
-            var models = _mapper.Map<List<Permission>>(Permissions);
-            return models;
-        }
-
-
-        public async Task<IEnumerable<Permission>> RechercheMultiFonction(string rech, int IdApplication, int IdRole)
-        {
-            var Permissions = await _IPermissionRepository.RechercheMultiFonction(rech, IdApplication, IdRole);
-            var models = _mapper.Map<List<Permission>>(Permissions);
-            return models;
-        }
 
         public async Task<bool> Supprimer(int Id)
         {

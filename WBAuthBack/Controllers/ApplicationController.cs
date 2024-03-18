@@ -3,7 +3,7 @@ using WBAuth.BLL.IManager;
 using WBAuth.BO;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WBAuthBack.Controllers
+namespace WBAuth.Back.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -64,8 +64,8 @@ namespace WBAuthBack.Controllers
         public async Task<IActionResult> Modifier([FromBody] Application oApplication)
         {
             if (!ModelState.IsValid)  {   return BadRequest(ModelState);  }
-            var ticketType = await _ApplicationManager.RechercheById(oApplication.Id);
-            if (ticketType == null)  return NotFound("Cet application est introuvable'");
+            var app = await _ApplicationManager.RechercheById(oApplication.Id);
+            if (app == null)  return NotFound("Cet application est introuvable'");
             var id = await _ApplicationManager.Modifier(oApplication);
             if (id <= 0)  return BadRequest($"Une erreur est survenue lors de la mise à jour de l'application {oApplication.Nom}.");     
             return Ok(id);

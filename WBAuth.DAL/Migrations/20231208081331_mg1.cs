@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -17,7 +18,11 @@ namespace WBAuth.DAL.Migrations
                     Nom = table.Column<string>(type: "VARCHAR(50)", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     Url = table.Column<string>(type: "VARCHAR(50)", nullable: true),
-                    Logo = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
+                    Logo = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    Auth2FA = table.Column<bool>(type: "bit", nullable: false),
+                    AuthGoogle = table.Column<bool>(type: "bit", nullable: false),
+                    AuthFacebook = table.Column<bool>(type: "bit", nullable: false),
+                    AuthLinkedIn = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,10 +44,14 @@ namespace WBAuth.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "Utilisateurs",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Nom = table.Column<string>(type: "VARCHAR(MAX)", nullable: false),
+                    Prenom = table.Column<string>(type: "VARCHAR(MAX)", nullable: false),
+                    DateInscription = table.Column<DateTime>(type: "datetime", nullable: true),
+                    Status = table.Column<bool>(type: "bit", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -60,26 +69,7 @@ namespace WBAuth.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Utilisateur",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NomUtilisateur = table.Column<string>(type: "VARCHAR(50)", nullable: false),
-                    EMAIL = table.Column<string>(type: "VARCHAR(100)", nullable: false),
-                    MotDePasse = table.Column<string>(type: "TEXT", nullable: false),
-                    Nom = table.Column<string>(type: "VARCHAR(50)", nullable: false),
-                    Prenom = table.Column<string>(type: "VARCHAR(50)", nullable: false),
-                    DateInscription = table.Column<DateTime>(type: "datetime", nullable: true),
-                    Status = table.Column<bool>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Utilisateur", x => x.Id);
+                    table.PrimaryKey("PK_Utilisateurs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -88,20 +78,20 @@ namespace WBAuth.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NomAction = table.Column<string>(type: "VARCHAR(50)", nullable: false),
+                    Nom = table.Column<string>(type: "VARCHAR(MAX)", nullable: false),
                     Type = table.Column<string>(type: "VARCHAR(50)", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
-                    IdApplication = table.Column<int>(type: "int", nullable: false),
-                    ApplicationId = table.Column<int>(type: "int", nullable: true)
+                    IdApplication = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Fonction", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Fonction_Application_ApplicationId",
-                        column: x => x.ApplicationId,
+                        name: "FK_Fonction_Application_IdApplication",
+                        column: x => x.IdApplication,
                         principalTable: "Application",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,7 +100,7 @@ namespace WBAuth.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nom = table.Column<string>(type: "VARCHAR(50)", nullable: false),
+                    Nom = table.Column<string>(type: "VARCHAR(MAX)", nullable: false),
                     Niveau = table.Column<int>(type: "int", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     IdApplication = table.Column<int>(type: "int", nullable: false)
@@ -161,9 +151,9 @@ namespace WBAuth.DAL.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        name: "FK_AspNetUserClaims_Utilisateurs_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Utilisateurs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -181,9 +171,9 @@ namespace WBAuth.DAL.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        name: "FK_AspNetUserLogins_Utilisateurs_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Utilisateurs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -205,9 +195,9 @@ namespace WBAuth.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        name: "FK_AspNetUserRoles_Utilisateurs_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Utilisateurs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -225,9 +215,9 @@ namespace WBAuth.DAL.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        name: "FK_AspNetUserTokens_Utilisateurs_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Utilisateurs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -238,17 +228,18 @@ namespace WBAuth.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AdresseIP = table.Column<string>(type: "VARCHAR(50)", nullable: true),
+                    Application = table.Column<string>(type: "TEXT", nullable: false),
+                    AdresseIP = table.Column<string>(type: "VARCHAR(MAX)", nullable: true),
                     DateConnexion = table.Column<DateTime>(type: "datetime", nullable: false),
-                    IdUtilisateur = table.Column<int>(type: "int", nullable: false)
+                    GuidUtilisateur = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Journalisation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Journalisation_Utilisateur_IdUtilisateur",
-                        column: x => x.IdUtilisateur,
-                        principalTable: "Utilisateur",
+                        name: "FK_Journalisation_Utilisateurs_GuidUtilisateur",
+                        column: x => x.GuidUtilisateur,
+                        principalTable: "Utilisateurs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -262,7 +253,7 @@ namespace WBAuth.DAL.Migrations
                     IdRole = table.Column<int>(type: "int", nullable: false),
                     IdFonction = table.Column<int>(type: "int", nullable: false),
                     Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -271,7 +262,8 @@ namespace WBAuth.DAL.Migrations
                         name: "FK_Permission_Fonction_IdFonction",
                         column: x => x.IdFonction,
                         principalTable: "Fonction",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Permission_Role_IdRole",
                         column: x => x.IdRole,
@@ -285,8 +277,8 @@ namespace WBAuth.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdRole = table.Column<int>(type: "int", nullable: false),
-                    IdUtilisateur = table.Column<int>(type: "int", nullable: false),
+                    IdRole = table.Column<int>(type: "int", nullable: true),
+                    GuidUtilisateur = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IdApplication = table.Column<int>(type: "int", nullable: false),
                     Acces = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -297,17 +289,19 @@ namespace WBAuth.DAL.Migrations
                         name: "FK_UtilisateurApplication_Application_IdApplication",
                         column: x => x.IdApplication,
                         principalTable: "Application",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UtilisateurApplication_Role_IdRole",
                         column: x => x.IdRole,
                         principalTable: "Role",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_UtilisateurApplication_Utilisateur_IdUtilisateur",
-                        column: x => x.IdUtilisateur,
-                        principalTable: "Utilisateur",
-                        principalColumn: "Id");
+                        name: "FK_UtilisateurApplication_Utilisateurs_GuidUtilisateur",
+                        column: x => x.GuidUtilisateur,
+                        principalTable: "Utilisateurs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -316,6 +310,7 @@ namespace WBAuth.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Application = table.Column<string>(type: "TEXT", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     IdJournalisation = table.Column<int>(type: "int", nullable: false)
@@ -364,38 +359,24 @@ namespace WBAuth.DAL.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "EmailIndex",
-                table: "AspNetUsers",
-                column: "NormalizedEmail");
-
-            migrationBuilder.CreateIndex(
-                name: "UserNameIndex",
-                table: "AspNetUsers",
-                column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Fonction_ApplicationId",
+                name: "IX_Fonction_IdApplication",
                 table: "Fonction",
-                column: "ApplicationId");
+                column: "IdApplication");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Journalisation_IdUtilisateur",
+                name: "IX_Journalisation_GuidUtilisateur",
                 table: "Journalisation",
-                column: "IdUtilisateur");
+                column: "GuidUtilisateur");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permission_IdFonction",
                 table: "Permission",
-                column: "IdFonction",
-                unique: true);
+                column: "IdFonction");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permission_IdRole",
                 table: "Permission",
-                column: "IdRole",
-                unique: true);
+                column: "IdRole");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Role_IdApplication",
@@ -403,22 +384,31 @@ namespace WBAuth.DAL.Migrations
                 column: "IdApplication");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UtilisateurApplication_GuidUtilisateur",
+                table: "UtilisateurApplication",
+                column: "GuidUtilisateur");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UtilisateurApplication_IdApplication",
                 table: "UtilisateurApplication",
-                column: "IdApplication",
-                unique: true);
+                column: "IdApplication");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UtilisateurApplication_IdRole",
                 table: "UtilisateurApplication",
-                column: "IdRole",
-                unique: true);
+                column: "IdRole");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UtilisateurApplication_IdUtilisateur",
-                table: "UtilisateurApplication",
-                column: "IdUtilisateur",
-                unique: true);
+                name: "EmailIndex",
+                table: "Utilisateurs",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "Utilisateurs",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -454,16 +444,13 @@ namespace WBAuth.DAL.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Fonction");
 
             migrationBuilder.DropTable(
                 name: "Role");
 
             migrationBuilder.DropTable(
-                name: "Utilisateur");
+                name: "Utilisateurs");
 
             migrationBuilder.DropTable(
                 name: "Application");
